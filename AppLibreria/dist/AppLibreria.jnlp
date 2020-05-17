@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="AppLibreria.jnlp">
+  <information>
+    <title>AppLibreria</title>
+    <vendor>USER</vendor>
+    <description>null</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="AppLibreria.jar" size="3693" download="eager" />
+    <jar href="lib\DominioLibreria.jar" size="8550" download="eager" />
+    <jar href="lib\LibreriaAccesoDatos.jar" size="5083" download="eager" />
+    <jar href="lib\LibreriaNegocio.jar" size="2481" download="eager" />
+    <jar href="lib\ojdbc7.jar" size="3699265" download="eager" />
+    <jar href="lib\ojdbc8 (2).jar" size="4036257" download="eager" />
+  </resources>
+  <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="AppLibreria" >
+    <param name="requiredFXVersion" value="8.0+"/>
+  </applet-desc>
+  <jfx:javafx-desc  width="800" height="600" main-class="applibreria.AppLibreria"  name="AppLibreria" />
+  <update check="always"/>
+</jnlp>
