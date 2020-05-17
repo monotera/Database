@@ -17,8 +17,8 @@ import java.util.ArrayList;
  */
 public class FacadeLibreria implements IFacadeLibreria{
     private ArrayList<Libro> libros = new ArrayList<>();
-    private IGestionLibro gestionLibro = new RepositorioLibro();
-    private IGestionPrestamo gestionPrestamo = new RepositorioPrestamo();
+    private final IGestionLibro gestionLibro = new RepositorioLibro();
+    private final IGestionPrestamo gestionPrestamo = new RepositorioPrestamo();
 
     public ArrayList<Libro> getLibros() {
         return libros;
@@ -38,7 +38,7 @@ public class FacadeLibreria implements IFacadeLibreria{
     @Override
     public void agregarLibro(Libro libro) {
         this.libros.add(libro);
-       // gestionLibro.agregarLibro(libro);
+        gestionLibro.agregarLibro(libro);
         
     }
     

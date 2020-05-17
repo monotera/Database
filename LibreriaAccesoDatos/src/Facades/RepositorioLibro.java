@@ -19,7 +19,9 @@ public class RepositorioLibro implements IGestionLibro{
 
     @Override
     public void agregarLibro(Libro libro) {
-        String SQl = "INSERT into books (isbn,precioBase,unidadesDisponibles,numeroImagenes,numeroVideos,Titulo) VALUES (?,?,?,?,?,?)";
+       String SQl = "INSERT into books (isbn,precioBase,unidadesDisponibles,numeroImagenes,numeroVideos,Titulo) VALUES (?,?,?,?,?,?)";
+        System.err.println("Insertadno datos");
+       
         try (Connection conn = DriverManager.getConnection(constante.THINCONN,constante.USERNAME,constante.PASSWORD);
                 PreparedStatement pr = conn.prepareStatement(SQl)){
             pr.setString(1, libro.getIsbn());
@@ -28,7 +30,12 @@ public class RepositorioLibro implements IGestionLibro{
             pr.setInt(4, libro.getNumeroImagenes());
             pr.setInt(5, libro.getNumeroVideos());
             pr.setString(6, libro.getTitulo());
-        } catch (Exception e) {
+            pr.execute();
+            conn.close();
+        } catch (Exception ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+
         }
     }
     

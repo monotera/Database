@@ -56,7 +56,7 @@ public class PantallaLibreriaController implements Initializable {
 
             facadeLibreria.agregarLibro(nuevoLibro);
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "Valores incorrectos", "Error", JOptionPane.WARNING_MESSAGE);
         }
 

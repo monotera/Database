@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package Interfaces;
+
 import entities.*;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
@@ -13,8 +13,8 @@ import java.util.ArrayList;
  * @author USER
  */
 public interface IFacadeLibreria {
+
     ArrayList<Libro> consultarLibros();
+
     void agregarLibro(Libro libro);
-    
-    
 }
