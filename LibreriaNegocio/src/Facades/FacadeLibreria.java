@@ -5,6 +5,8 @@
  */
 package Facades;
 
+import Intefaces.IGestionLibro;
+import Intefaces.IGestionPrestamo;
 import Interfaces.IFacadeLibreria;
 import entities.Libro;
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import java.util.ArrayList;
  */
 public class FacadeLibreria implements IFacadeLibreria{
     private ArrayList<Libro> libros = new ArrayList<>();
+    private IGestionLibro gestionLibro = new RepositorioLibro();
+    private IGestionPrestamo gestionPrestamo = new RepositorioPrestamo();
 
     public ArrayList<Libro> getLibros() {
         return libros;
@@ -34,6 +38,8 @@ public class FacadeLibreria implements IFacadeLibreria{
     @Override
     public void agregarLibro(Libro libro) {
         this.libros.add(libro);
+       // gestionLibro.agregarLibro(libro);
+        
     }
     
     

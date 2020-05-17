@@ -34,3 +34,8 @@ hs_err_pid*
 /LibreriaNegocio/build/
 /LibreriaNegocio/dist/
 /AppLibreria/nbproject/private/
+/AppLibreria/build/
+/AppLibreria/dist/
+/LibreriaAccesoDatos/nbproject/private/
+/LibreriaAccesoDatos/build/
+/LibreriaAccesoDatos/dist/
