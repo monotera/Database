@@ -45,12 +45,13 @@ public class RepositorioLibro implements IGestionLibro{
     public ArrayList<Libro> consultarLibros() {
         String SQl = "select * from BOOKS";
         System.err.println("Insertadno datos");
-       Libro l = new Libro();
+       
        ArrayList<Libro> libros = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(constante.THINCONN,constante.USERNAME,constante.PASSWORD);
                 PreparedStatement ps = conn.prepareStatement(SQl);
                 ResultSet rs = ps.executeQuery();) {
             while (rs.next()) {
+                Libro l = new Libro();
                 l.setIsbn(rs.getString("ISBN"));
                 l.setNumeroImagenes(rs.getInt("NUMEROIMAGENES"));
                 l.setPrecioBase(rs.getDouble("PRECIOBASE"));
