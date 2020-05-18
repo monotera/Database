@@ -9,43 +9,73 @@ import Intefaces.IGestionLibro;
 import Intefaces.IGestionPrestamo;
 import Interfaces.IFacadeLibreria;
 import entities.Libro;
+import entities.Prestamo;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import javafx.util.converter.LocalDateTimeStringConverter;
 
 /**
  *
  * @author USER
  */
-public class FacadeLibreria implements IFacadeLibreria{
-    private ArrayList<Libro> libros = new ArrayList<>();
-    private final IGestionLibro gestionLibro = new RepositorioLibro();
-    private final IGestionPrestamo gestionPrestamo = new RepositorioPrestamo();
+public class FacadeLibreria implements IFacadeLibreria {
 
-    public ArrayList<Libro> getLibros() {
-        return libros;
+    private ArrayList<Libro> catalogo = new ArrayList<>();
+    private IGestionLibro gestionLibro = new RepositorioLibro();
+    private IGestionPrestamo gestionPrestamo = new RepositorioPrestamo();
+    private ArrayList<Prestamo> prestamos = new ArrayList<>();
+    private Prestamo prestamoActual = new Prestamo();
+
+    public boolean crearNuevoPrestamo() {
+
+        LocalDateTime t = LocalDateTime.now();
+        this.prestamoActual.setFecha(t);
+        if (this.catalogo.isEmpty()) {
+            return false;
+        }
+        for (Libro l : catalogo) {
+            if (l.getUnidadDisponibles() != 0) {
+                return false;
+            }
+
+        }
+        return true;
+
     }
 
-    public void setLibros(ArrayList<Libro> libros) {
-        this.libros = libros;
+    public FacadeLibreria() {
+        this.catalogo = gestionLibro.CargarLibros();
     }
-    
+
+    public ArrayList<Libro> getCatalogo() {
+        return catalogo;
+    }
+
+    public void setCatalogo(ArrayList<Libro> catalogo) {
+        this.catalogo = catalogo;
+    }
+
     @Override
     public ArrayList<Libro> consultarLibros() {
-        return  this.libros;
+        return this.catalogo;
     }
-
-   
 
     @Override
     public void agregarLibro(Libro libro) {
-        this.libros.add(libro);
+        this.catalogo.add(libro);
         gestionLibro.agregarLibro(libro);
-        
+
     }
 
     @Override
     public void cargarLibros() {
-        this.libros = gestionLibro.consultarLibros();
+        this.catalogo = gestionLibro.CargarLibros();
     }
-    
-    
+
+    @Override
+    public void PersistirPrestamo() {
+        gestionPrestamo.PersistirPrestamo(this.prestamoActual);
+    }
+
 }

@@ -14,5 +14,6 @@ import java.util.ArrayList;
  */
 public interface IGestionLibro {
     void agregarLibro(Libro libro);
-    ArrayList<Libro> consultarLibros();
+    ArrayList<Libro> CargarLibros();
+    
 }

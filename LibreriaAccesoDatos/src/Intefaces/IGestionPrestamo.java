@@ -5,10 +5,12 @@
  */
 package Intefaces;
 
+import entities.Prestamo;
+
 /**
  *
  * @author USER
  */
 public interface IGestionPrestamo {
-    
+    void PersistirPrestamo(Prestamo prestamo);
 }

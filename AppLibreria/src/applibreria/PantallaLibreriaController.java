@@ -75,23 +75,23 @@ public class PantallaLibreriaController implements Initializable {
         txtNumeroVideos.clear();
         txtPrecio.clear();
         txtUnidadesDisponibles.clear();
-        txtPrecio.clear();
+        txtTitulo.clear();
+        
         agregarLibrosTabala();
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        facadeLibreria.cargarLibros();
+        //facadeLibreria.cargarLibros();
         agregarLibrosTabala();
     }
     @FXML
     private void agregarLibrosTabala()
     {
         
- 
-        ListaLibrosObservable.addAll(facadeLibreria.consultarLibros());
-        tablaAgregar.setItems(ListaLibrosObservable);
+        tablaAgregar.getItems().clear();
+        
         for(Libro l :  facadeLibreria.consultarLibros())
         {
             tablaAgregar.getItems().add(l);
