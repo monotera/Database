@@ -6,6 +6,7 @@
 package Intefaces;
 
 import entities.Libro;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,5 +14,5 @@ import entities.Libro;
  */
 public interface IGestionLibro {
     void agregarLibro(Libro libro);
-    
+    ArrayList<Libro> consultarLibros();
 }

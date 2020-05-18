@@ -9,12 +9,17 @@ import Facades.FacadeLibreria;
 import Interfaces.IFacadeLibreria;
 import entities.Libro;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javax.swing.JOptionPane;
 
@@ -25,8 +30,7 @@ import javax.swing.JOptionPane;
 public class PantallaLibreriaController implements Initializable {
 
     IFacadeLibreria facadeLibreria = new FacadeLibreria();
-    @FXML
-    private Label label;
+    
     @FXML
     private Button buttonAgregarLibro;
     @FXML
@@ -41,6 +45,12 @@ public class PantallaLibreriaController implements Initializable {
     private TextField txtNumeroVideos;
     @FXML
     private TextField txtPrecio;
+    @FXML
+    private TableView<Libro> tablaAgregar =  new TableView<>();
+    @FXML
+    private TableColumn<Libro, String> tableIsbnAgregar = new TableColumn<>("ISBN");
+    @FXML
+    private TableColumn<Libro, String> tableTituloAgregar =  new TableColumn<>("Titulo");
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -71,7 +81,20 @@ public class PantallaLibreriaController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        facadeLibreria.cargarLibros();
+        agregarLibrosTabala();
+    }
+    @FXML
+    private void agregarLibrosTabala()
+    {
+        ObservableList<Libro> Olibro = new F;
+        ArrayList<Libro> lista = new ArrayList<>();
+        
+        lista = facadeLibreria.consultarLibros();
+        for(Libro l :  lista)
+        {
+            tablaAgregar.a
+        }
     }
 
 }

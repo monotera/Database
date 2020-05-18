@@ -15,6 +15,6 @@ import java.util.ArrayList;
 public interface IFacadeLibreria {
 
     ArrayList<Libro> consultarLibros();
-
+    void cargarLibros();
     void agregarLibro(Libro libro);
 }

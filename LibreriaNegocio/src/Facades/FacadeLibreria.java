@@ -41,6 +41,11 @@ public class FacadeLibreria implements IFacadeLibreria{
         gestionLibro.agregarLibro(libro);
         
     }
+
+    @Override
+    public void cargarLibros() {
+        this.libros = gestionLibro.consultarLibros();
+    }
     
     
 }
