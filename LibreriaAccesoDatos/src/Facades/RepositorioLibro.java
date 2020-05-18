@@ -51,11 +51,11 @@ public class RepositorioLibro implements IGestionLibro{
                 PreparedStatement ps = conn.prepareStatement(SQl);
                 ResultSet rs = ps.executeQuery();) {
             while (rs.next()) {
-                l.setIsbn(rs.getString("ISB"));
+                l.setIsbn(rs.getString("ISBN"));
                 l.setNumeroImagenes(rs.getInt("NUMEROIMAGENES"));
                 l.setPrecioBase(rs.getDouble("PRECIOBASE"));
-                l.setTitulo(rs.getString("Titulo"));
-                l.setNumeroVideos(rs.getInt("NumeroImages"));
+                l.setTitulo(rs.getString("TITULO"));
+                l.setNumeroVideos(rs.getInt("NUMEROIMAGENES"));
                 l.setUnidadDisponibles(rs.getInt("UNIDADESDISPONIBLES"));
                 libros.add(l);
                 

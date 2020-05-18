@@ -30,7 +30,7 @@ import javax.swing.JOptionPane;
 public class PantallaLibreriaController implements Initializable {
 
     IFacadeLibreria facadeLibreria = new FacadeLibreria();
-    
+    private final ObservableList<Libro> ListaLibrosObservable = FXCollections.observableArrayList();
     @FXML
     private Button buttonAgregarLibro;
     @FXML
@@ -87,14 +87,14 @@ public class PantallaLibreriaController implements Initializable {
     @FXML
     private void agregarLibrosTabala()
     {
-        ObservableList<Libro> Olibro = new F;
-        ArrayList<Libro> lista = new ArrayList<>();
         
+        ArrayList<Libro> lista = new ArrayList<>();
         lista = facadeLibreria.consultarLibros();
         for(Libro l :  lista)
         {
-            tablaAgregar.a
+            ListaLibrosObservable.add(l);
         }
+        tablaAgregar.setItems(ListaLibrosObservable);
     }
 
 }
