@@ -48,7 +48,7 @@ public class PantallaLibreriaController implements Initializable {
     @FXML
     private TableView<Libro> tablaAgregar;
     @FXML
-    private TableColumn<Libro, String> tableIsbnAgregar = new TableColumn<>("ISBN");
+    private TableColumn<Libro, String> tableIsbnAgregar = new TableColumn<>("Isbn");
     @FXML
     private TableColumn<Libro, String> tableTituloAgregar =  new TableColumn<>("Titulo");
 
@@ -76,6 +76,7 @@ public class PantallaLibreriaController implements Initializable {
         txtPrecio.clear();
         txtUnidadesDisponibles.clear();
         txtPrecio.clear();
+        agregarLibrosTabala();
 
     }
 
@@ -87,10 +88,15 @@ public class PantallaLibreriaController implements Initializable {
     @FXML
     private void agregarLibrosTabala()
     {
+        
+ 
+        ListaLibrosObservable.addAll(facadeLibreria.consultarLibros());
+        tablaAgregar.setItems(ListaLibrosObservable);
         for(Libro l :  facadeLibreria.consultarLibros())
         {
             tablaAgregar.getItems().add(l);
         }
+        
     }
 
 }

@@ -8,7 +8,7 @@
   </information>
   <resources>
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-    <jar href="AppLibreria.jar" size="4426" download="eager" />
+    <jar href="AppLibreria.jar" size="4520" download="eager" />
     <jar href="lib\DominioLibreria.jar" size="8550" download="eager" />
     <jar href="lib\LibreriaAccesoDatos.jar" size="7206" download="eager" />
     <jar href="lib\LibreriaNegocio.jar" size="2609" download="eager" />
