@@ -75,13 +75,13 @@ public class PantallaLibreriaController implements Initializable {
     @FXML
     private TableView<Linea> TablaLineasDelPrestamo;
     @FXML
-    private TableColumn<Linea, String> ColumnaLibro;
+    private TableColumn<Linea, String> ColumnaLibro = new TableColumn<>("Libro");
     @FXML
-    private TableColumn<Linea, Integer> ColumnaCantidad;
+    private TableColumn<Linea, Integer> ColumnaCantidad = new TableColumn<>("Cantidad");
     @FXML
-    private TableColumn<Linea, Double> ColumnaPrecioLibro;
+    private TableColumn<Linea, Double> ColumnaPrecioLibro = new TableColumn<>("Plibro");
     @FXML
-    private TableColumn<Linea, Double> ColumnaSubTotal;
+    private TableColumn<Linea, Double> ColumnaSubTotal = new TableColumn<>("Subtotal");
     @FXML
     private Text TextoTotalPrestamo;
     @FXML
@@ -124,19 +124,18 @@ public class PantallaLibreriaController implements Initializable {
         txtUnidadesDisponibles.clear();
         txtTitulo.clear();
         
-        agregarLibrosTabala();
+        llenarCampos();
 
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //facadeLibreria.cargarLibros();
-        agregarLibrosTabala();
+        llenarCampos();
         
     }
-    private void agregarLibrosTabala()
+    private void llenarCampos()
     {
-        
         tablaAgregar.getItems().clear();
         
         for(Libro l :  facadeLibreria.consultarLibros())
@@ -144,8 +143,6 @@ public class PantallaLibreriaController implements Initializable {
             tablaAgregar.getItems().add(l);
             ComboboxSeleccionLibros.getItems().add(l.getTitulo());
         }
-       
-        
+        ComboboxDenominacion.getItems().addAll(Denominacion.MIL,Denominacion.QUIENTOS); 
     }
-
 }
