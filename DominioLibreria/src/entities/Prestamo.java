@@ -61,6 +61,16 @@ public class Prestamo {
     public Prestamo() {
         
     }
+    public DtoResumen agregarLinea(Libro libro, int cantidad)
+    {
+        DtoResumen dto = new DtoResumen();
+        Linea nuevaLienea = new Linea();
+        nuevaLienea.setLibroEnPrestamo(libro);
+        nuevaLienea.setCantidad(cantidad);
+        nuevaLienea.setSubTotal(libro.getPrecioBase()* cantidad);//se da el subtotal
+        this.lineas.add(nuevaLienea);
+        return dto;
+    }
     
     
 }

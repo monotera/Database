@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -55,7 +56,7 @@ public class PantallaLibreriaController implements Initializable {
     @FXML
     private TableColumn<Libro, String> tableIsbnAgregar = new TableColumn<>("Isbn");
     @FXML
-    private TableColumn<Libro, String> tableTituloAgregar =  new TableColumn<>("Titulo");
+    private TableColumn<Libro, String> tableTituloAgregar = new TableColumn<>("Titulo");
     @FXML
     private AnchorPane BotonValorDenominacion;
     @FXML
@@ -98,6 +99,8 @@ public class PantallaLibreriaController implements Initializable {
     private Button BotonTerminarPrestamo;
     @FXML
     private Button BotonGenerarReporte;
+    @FXML
+    private Button botonEliminar;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -114,7 +117,7 @@ public class PantallaLibreriaController implements Initializable {
             facadeLibreria.agregarLibro(nuevoLibro);
 
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Valores incorrectos", "Error", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Valores incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
         txtIsbn.clear();
@@ -123,7 +126,7 @@ public class PantallaLibreriaController implements Initializable {
         txtPrecio.clear();
         txtUnidadesDisponibles.clear();
         txtTitulo.clear();
-        
+
         llenarCampos();
 
     }
@@ -132,17 +135,69 @@ public class PantallaLibreriaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //facadeLibreria.cargarLibros();
         llenarCampos();
-        
+
     }
-    private void llenarCampos()
-    {
+
+    private void llenarCampos() {
         tablaAgregar.getItems().clear();
-        
-        for(Libro l :  facadeLibreria.consultarLibros())
-        {
+
+        for (Libro l : facadeLibreria.consultarLibros()) {
             tablaAgregar.getItems().add(l);
             ComboboxSeleccionLibros.getItems().add(l.getTitulo());
         }
-        ComboboxDenominacion.getItems().addAll(Denominacion.MIL,Denominacion.QUIENTOS); 
+        ComboboxDenominacion.getItems().addAll(Denominacion.MIL, Denominacion.QUIENTOS);
+    }
+
+    @FXML
+    private void ManejadorBotonNuevoPrestamo(ActionEvent event) {
+
+        if (facadeLibreria.crearNuevoPrestamo()) {
+            TextoLocalDate.setText(facadeLibreria.getPrestamoActual().getFecha().toString());
+
+        } else {
+            JOptionPane.showMessageDialog(null, "no se puede iniciar nuevo prestamo", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    private void llenarCamposPrestamo() {
+        TablaLineasDelPrestamo.getItems().clear();
+
+        for (Linea l : facadeLibreria.getPrestamoActual().getLineas()) {
+            TablaLineasDelPrestamo.getItems().add(l);
+
+        }
+    }
+
+    @FXML
+    private void ManejadorBotonAgregarLinea(ActionEvent event) {
+        String titulo = ComboboxSeleccionLibros.getSelectionModel().toString();
+        if (!TextCant.getText().isEmpty()) {
+            int catidad = Integer.parseInt(TextCant.getText());
+            for (Libro l : facadeLibreria.consultarLibros()) {
+                if (l.getTitulo() == titulo) {
+                    facadeLibreria.agregarLinea(l, catidad);
+                }
+            }
+        }else {
+            JOptionPane.showMessageDialog(null, "Cantidad incompleta", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+       llenarCamposPrestamo();
+    }
+
+    @FXML
+    private void ManejadorBotonAgregarMonedas(ActionEvent event) {
+    }
+
+    @FXML
+    private void ManejadorBotonTerminarPrestamo(ActionEvent event) {
+    }
+
+    @FXML
+    private void ManejadorBotonGenerarReporte(ActionEvent event) {
+    }
+
+    @FXML
+    private void ManejadorBotonEliminar(ActionEvent event) {
     }
 }
