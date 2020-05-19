@@ -42,7 +42,7 @@ public class RepositorioLibro implements IGestionLibro{
     }
 
     @Override
-    public ArrayList<Libro> consultarLibros() {
+    public ArrayList<Libro> CargarLibros() {
         String SQl = "select * from BOOKS";
         System.err.println("Insertadno datos");
        
