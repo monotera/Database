@@ -5,9 +5,11 @@
  */
 package applibreria;
 
+import Enums.Denominacion;
 import Facades.FacadeLibreria;
 import Interfaces.IFacadeLibreria;
 import entities.Libro;
+import entities.Linea;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -17,10 +19,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javax.swing.JOptionPane;
 
 /**
@@ -51,6 +56,48 @@ public class PantallaLibreriaController implements Initializable {
     private TableColumn<Libro, String> tableIsbnAgregar = new TableColumn<>("Isbn");
     @FXML
     private TableColumn<Libro, String> tableTituloAgregar =  new TableColumn<>("Titulo");
+    @FXML
+    private AnchorPane BotonValorDenominacion;
+    @FXML
+    private Text texto1KL;
+    @FXML
+    private Button BotonNuevoPrestamo;
+    @FXML
+    private Text TextoLocalDate;
+    @FXML
+    private Text TextoNumeroPrestamo;
+    @FXML
+    private ComboBox<String> ComboboxSeleccionLibros;
+    @FXML
+    private TextField TextCant;
+    @FXML
+    private Button BotonAgregarLinea;
+    @FXML
+    private TableView<Linea> TablaLineasDelPrestamo;
+    @FXML
+    private TableColumn<Linea, String> ColumnaLibro;
+    @FXML
+    private TableColumn<Linea, Integer> ColumnaCantidad;
+    @FXML
+    private TableColumn<Linea, Double> ColumnaPrecioLibro;
+    @FXML
+    private TableColumn<Linea, Double> ColumnaSubTotal;
+    @FXML
+    private Text TextoTotalPrestamo;
+    @FXML
+    private TextField TextCantMonedas;
+    @FXML
+    private ComboBox<Denominacion> ComboboxDenominacion;
+    @FXML
+    private Button BotonAgregarMonedas;
+    @FXML
+    private Text TextoSaldoDispMonedas;
+    @FXML
+    private Text TextoVueltos;
+    @FXML
+    private Button BotonTerminarPrestamo;
+    @FXML
+    private Button BotonGenerarReporte;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -85,8 +132,8 @@ public class PantallaLibreriaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //facadeLibreria.cargarLibros();
         agregarLibrosTabala();
+        
     }
-    @FXML
     private void agregarLibrosTabala()
     {
         
@@ -95,7 +142,9 @@ public class PantallaLibreriaController implements Initializable {
         for(Libro l :  facadeLibreria.consultarLibros())
         {
             tablaAgregar.getItems().add(l);
+            ComboboxSeleccionLibros.getItems().add(l.getTitulo());
         }
+       
         
     }
 

@@ -13,9 +13,18 @@ public class Linea {
 
     private int cantidad;
     private Libro libroEnPrestamo;
+    private double subTotal;
 
     public Libro getLibroEnPrestamo() {
         return libroEnPrestamo;
+    }
+
+    public double getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
     }
 
     public void setLibroEnPrestamo(Libro libroEnPrestamo) {
