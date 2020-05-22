@@ -19,6 +19,12 @@ public class Linea {
         return libroEnPrestamo;
     }
 
+    public String getTitulo() {
+        return libroEnPrestamo.getTitulo();
+    }
+    public double getPrecioBase() {
+        return libroEnPrestamo.getPrecioBase();
+    }
     public double getSubTotal() {
         return subTotal;
     }
@@ -49,7 +55,7 @@ public class Linea {
 
     @Override
     public String toString() {
-        return "Cantidad: " + this.cantidad + "\nLibro en Prestamo:"+this.libroEnPrestamo.toString();
+        return "Cantidad: " + this.cantidad + "\nLibro en Prestamo:" + this.libroEnPrestamo.toString();
     }
 
 }

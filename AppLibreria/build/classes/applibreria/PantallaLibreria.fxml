@@ -68,24 +68,24 @@
                                 <Text layoutX="29.0" layoutY="163.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lineas del Prestamo" />
                                 <TableView fx:id="TablaLineasDelPrestamo" layoutX="29.0" layoutY="181.0" prefHeight="129.0" prefWidth="493.0">
                                     <columns>
-                                        <TableColumn fx:id="ColumnaLibro" prefWidth="115.0" text="Libro">
+                                        <TableColumn fx:id="ColumnaLibro" prefWidth="115.0" text="Titulo">
                                             <cellValueFactory>
-                                                <javafx.scene.control.cell.PropertyValueFactory property="Libro" />
+                                                <javafx.scene.control.cell.PropertyValueFactory property="titulo" />
                                             </cellValueFactory>
                                         </TableColumn>
                                         <TableColumn fx:id="ColumnaCantidad" prefWidth="74.0" text="Cantidad">
                                             <cellValueFactory>
-                                                <javafx.scene.control.cell.PropertyValueFactory property="Cantidad" />
+                                                <javafx.scene.control.cell.PropertyValueFactory property="cantidad" />
                                             </cellValueFactory>
                                         </TableColumn>
-                                        <TableColumn fx:id="ColumnaPrecioLibro" prefWidth="93.0" text="Precio Libro">
+                                        <TableColumn fx:id="ColumnaPrecioLibro" prefWidth="93.0" text="PrecioBase">
                                             <cellValueFactory>
-                                                <javafx.scene.control.cell.PropertyValueFactory property="Plibro" />
+                                                <javafx.scene.control.cell.PropertyValueFactory property="precioBase" />
                                             </cellValueFactory>
                                         </TableColumn>
-                                        <TableColumn fx:id="ColumnaSubTotal" prefWidth="83.0" text="SubTotal">
+                                        <TableColumn fx:id="ColumnaSubTotal" prefWidth="83.0" text="subTotal">
                                             <cellValueFactory>
-                                                <javafx.scene.control.cell.PropertyValueFactory property="Subtotal" />
+                                                <javafx.scene.control.cell.PropertyValueFactory property="subTotal" />
                                             </cellValueFactory>
                                         </TableColumn>
                                     </columns>

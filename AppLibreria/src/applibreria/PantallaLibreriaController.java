@@ -76,13 +76,13 @@ public class PantallaLibreriaController implements Initializable {
     @FXML
     private TableView<Linea> TablaLineasDelPrestamo;
     @FXML
-    private TableColumn<Linea, String> ColumnaLibro = new TableColumn<>("Libro");
+    private TableColumn<Linea, String> ColumnaLibro = new TableColumn<>("titulo");
     @FXML
-    private TableColumn<Linea, Integer> ColumnaCantidad = new TableColumn<>("Cantidad");
+    private TableColumn<Linea, Integer> ColumnaCantidad = new TableColumn<>("cantidad");
     @FXML
-    private TableColumn<Linea, Double> ColumnaPrecioLibro = new TableColumn<>("Plibro");
+    private TableColumn<Linea, Double> ColumnaPrecioLibro = new TableColumn<>("precioBase");
     @FXML
-    private TableColumn<Linea, Double> ColumnaSubTotal = new TableColumn<>("Subtotal");
+    private TableColumn<Linea, Double> ColumnaSubTotal = new TableColumn<>("subTotal");
     @FXML
     private Text TextoTotalPrestamo;
     @FXML
@@ -162,8 +162,9 @@ public class PantallaLibreriaController implements Initializable {
 
     private void llenarCamposPrestamo() {
         TablaLineasDelPrestamo.getItems().clear();
-
+        
         for (Linea l : facadeLibreria.getPrestamoActual().getLineas()) {
+            System.out.println(l.getTitulo());
             TablaLineasDelPrestamo.getItems().add(l);
 
         }
@@ -171,17 +172,20 @@ public class PantallaLibreriaController implements Initializable {
 
     @FXML
     private void ManejadorBotonAgregarLinea(ActionEvent event) {
-        String titulo = ComboboxSeleccionLibros.getSelectionModel().toString();
+        String titulo = ComboboxSeleccionLibros.getSelectionModel().getSelectedItem().toString();
+        System.out.println("titulo" + titulo);
         if (!TextCant.getText().isEmpty()) {
             int catidad = Integer.parseInt(TextCant.getText());
             for (Libro l : facadeLibreria.consultarLibros()) {
                 if (l.getTitulo() == titulo) {
+                    System.out.println("entroooo");
                     facadeLibreria.agregarLinea(l, catidad);
                 }
             }
         }else {
             JOptionPane.showMessageDialog(null, "Cantidad incompleta", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        System.out.println("entro");
        llenarCamposPrestamo();
     }
 
