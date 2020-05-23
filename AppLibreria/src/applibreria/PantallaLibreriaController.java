@@ -180,11 +180,12 @@ public class PantallaLibreriaController implements Initializable {
     @FXML
     private void ManejadorBotonAgregarLinea(ActionEvent event) {
         String titulo = ComboboxSeleccionLibros.getSelectionModel().getSelectedItem().toString();
+        DtoResumen res = new DtoResumen();
         if (!TextCant.getText().isEmpty()) {
             int catidad = Integer.parseInt(TextCant.getText());
             for (Libro l : facadeLibreria.consultarLibros()) {
                 if (l.getTitulo() == titulo) {
-                    DtoResumen res = facadeLibreria.agregarLinea(l, catidad);
+                    res = facadeLibreria.agregarLinea(l, catidad);
                     TextoTotalPrestamo.setText(Double.toString(res.getTotal()));
                     textoCantiLineas.setText(Integer.toString(res.getTama()));
                 }
@@ -192,6 +193,9 @@ public class PantallaLibreriaController implements Initializable {
         }else {
             JOptionPane.showMessageDialog(null, "Cantidad incompleta", "Error", JOptionPane.ERROR_MESSAGE);
         }
+        if(!res.isAgregar()){
+            JOptionPane.showMessageDialog(null,res.getMensaje() , "Error", JOptionPane.ERROR_MESSAGE);
+        }        
        llenarCamposPrestamo();
        if(facadeLibreria.getPrestamoActual().getLineas().size() != 0)
        {

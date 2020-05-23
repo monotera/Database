@@ -127,16 +127,14 @@ public class FacadeLibreria implements IFacadeLibreria {
         DtoResumen res = new DtoResumen();
         int bandera = cantiLibros(libro, cantidad);
         if (bandera == 1) {
-            res.setAgregar(true);
             res = prestamoActual.agregarLinea(libro, cantidad);
+            res.setAgregar(true);
             return res;
-        }
-        else{
+        } else {
             res.setAgregar(false);
             if (bandera == 0) {
-                 res.setMensaje("ERROR: no hay la cantidad suficiente de libros en el catalogo");
-            }
-            else{
+                res.setMensaje("ERROR: no hay la cantidad suficiente de libros en el catalogo");
+            } else {
                 res.setMensaje("ERROR: El libro no existe");
             }
         }
@@ -146,13 +144,14 @@ public class FacadeLibreria implements IFacadeLibreria {
     private int existeLibro(Libro libro) {
         return catalogo.indexOf(libro);
     }
-    private int cantiLibros(Libro libro, int canti){
+
+    private int cantiLibros(Libro libro, int canti) {
         int respuesta = -1;
         int indice = existeLibro(libro);
-        if(indice != -1){
+        if (indice != -1) {
             int unidades = catalogo.get(indice).getUnidadDisponibles();
             respuesta = 0;
-            if(unidades >= canti){
+            if (unidades >= canti) {
                 respuesta = 1;
             }
         }
