@@ -151,8 +151,13 @@ public class PantallaLibreriaController implements Initializable {
     @FXML
     private void ManejadorBotonNuevoPrestamo(ActionEvent event) {
         BotonAgregarLinea.setDisable(false);
+        BotonAgregarMonedas.setDisable(false);
+        BotonGenerarReporte.setDisable(false);
+        botonEliminar.setDisable(false);
         if (facadeLibreria.crearNuevoPrestamo()) {
             TextoLocalDate.setText(facadeLibreria.getPrestamoActual().getFecha().toString());
+            String numero = Integer.toString(facadeLibreria.getPrestamoActual().getNumero());
+            TextoNumeroPrestamo.setText(numero);
 
         } else {
             JOptionPane.showMessageDialog(null, "no se puede iniciar nuevo prestamo", "Error", JOptionPane.ERROR_MESSAGE);
@@ -183,6 +188,10 @@ public class PantallaLibreriaController implements Initializable {
             JOptionPane.showMessageDialog(null, "Cantidad incompleta", "Error", JOptionPane.ERROR_MESSAGE);
         }
        llenarCamposPrestamo();
+       if(facadeLibreria.getPrestamoActual().getLineas().size() != 0)
+       {
+           BotonTerminarPrestamo.setDisable(false);
+       }
     }
 
     @FXML

@@ -96,14 +96,14 @@
                                 <TextField fx:id="TextCantMonedas" layoutX="139.0" layoutY="328.0" prefHeight="22.0" prefWidth="48.0" />
                                 <Text layoutX="201.0" layoutY="345.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Denominación" />
                                 <ComboBox fx:id="ComboboxDenominacion" layoutX="297.0" layoutY="330.0" prefHeight="26.0" prefWidth="87.0" />
-                                <Button fx:id="BotonAgregarMonedas" layoutX="415.0" layoutY="328.0" mnemonicParsing="false" onAction="#ManejadorBotonAgregarMonedas" text="Agregar Monedas" />
+                                <Button fx:id="BotonAgregarMonedas" disable="true" layoutX="415.0" layoutY="328.0" mnemonicParsing="false" onAction="#ManejadorBotonAgregarMonedas" text="Agregar Monedas" />
                                 <Text layoutX="31.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Saldo Disponible  de Monedas  " />
                                 <Text fx:id="TextoSaldoDispMonedas" layoutX="215.0" layoutY="378.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="95.0" />
                                 <Text layoutX="33.0" layoutY="414.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vueltos" wrappingWidth="46.615234375" />
                                 <Text fx:id="TextoVueltos" layoutX="100.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="69.0" />
-                                <Button fx:id="BotonTerminarPrestamo" layoutX="210.0" layoutY="402.0" mnemonicParsing="false" onAction="#ManejadorBotonTerminarPrestamo" text="Terminar Prestamo" />
-                                <Button fx:id="BotonGenerarReporte" layoutX="352.0" layoutY="402.0" mnemonicParsing="false" onAction="#ManejadorBotonGenerarReporte" text="Generar Reporte" />
-                                <Button fx:id="botonEliminar" layoutX="471.0" layoutY="402.0" mnemonicParsing="false" onAction="#ManejadorBotonEliminar" prefHeight="24.0" prefWidth="90.0" text="Eliminar" />
+                                <Button fx:id="BotonTerminarPrestamo" disable="true" layoutX="210.0" layoutY="402.0" mnemonicParsing="false" onAction="#ManejadorBotonTerminarPrestamo" text="Terminar Prestamo" />
+                                <Button fx:id="BotonGenerarReporte" disable="true" layoutX="352.0" layoutY="402.0" mnemonicParsing="false" onAction="#ManejadorBotonGenerarReporte" text="Generar Reporte" />
+                                <Button fx:id="botonEliminar" disable="true" layoutX="471.0" layoutY="402.0" mnemonicParsing="false" onAction="#ManejadorBotonEliminar" prefHeight="24.0" prefWidth="90.0" text="Eliminar" />
                             </children>
                         </AnchorPane>
                     </content>
