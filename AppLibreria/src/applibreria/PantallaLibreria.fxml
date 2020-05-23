@@ -9,30 +9,52 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane id="AnchorPane" prefHeight="581.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applibreria.PantallaLibreriaController">
     <children>
-        <TabPane prefHeight="581.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane prefHeight="510.0" prefWidth="584.0" style="-fx-background-color: #FFFFF0;" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab text="Agregar">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="235.0" prefWidth="381.0">
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="235.0" prefWidth="381.0" style="-fx-background-color: #4f4f4f;">
                             <children>
-                                <TextField fx:id="txtTitulo" layoutX="165.0" layoutY="50.0" />
-                                <TextField fx:id="txtIsbn" layoutX="165.0" layoutY="107.0" />
-                                <TextField fx:id="txtUnidadesDisponibles" layoutX="165.0" layoutY="153.0" />
-                                <TextField fx:id="txtNumeroImagenes" layoutX="165.0" layoutY="208.0" />
-                                <TextField fx:id="txtNumeroVideos" layoutX="165.0" layoutY="259.0" />
-                                <Text layoutX="91.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo" />
-                                <Text layoutX="102.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="isbn" wrappingWidth="31.443756103515625" />
-                                <Text layoutX="15.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="unidades Disponibles" />
-                                <Text layoutX="14.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero de imagenes" />
-                                <Text layoutX="20.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero de videos" />
-                                <Text layoutX="92.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio" />
-                                <TextField fx:id="txtPrecio" layoutX="165.0" layoutY="311.0" />
-                                <Button fx:id="buttonAgregarLibro" layoutX="378.0" layoutY="341.0" onAction="#handleButtonAction" prefHeight="38.0" prefWidth="94.0" text="Agregar Libro" />
-                                <TableView fx:id="tablaAgregar" layoutX="332.0" layoutY="84.0" prefHeight="200.0" prefWidth="200.0">
+                                <TextField fx:id="txtTitulo" layoutX="165.0" layoutY="50.0" style="-fx-background-color: #FFFFF0;" />
+                                <TextField fx:id="txtIsbn" layoutX="165.0" layoutY="107.0" style="-fx-background-color: #FFFFF0;" />
+                                <TextField fx:id="txtUnidadesDisponibles" layoutX="165.0" layoutY="153.0" style="-fx-background-color: #FFFFF0;" />
+                                <TextField fx:id="txtNumeroImagenes" layoutX="165.0" layoutY="208.0" style="-fx-background-color: #FFFFF0;" />
+                                <TextField fx:id="txtNumeroVideos" layoutX="165.0" layoutY="259.0" style="-fx-background-color: #FFFFF0;" />
+                                <Text fill="#ff2301" layoutX="91.0" layoutY="67.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Titulo">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Text>
+                                <Text fill="#ff2301" layoutX="102.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Isbn" wrappingWidth="31.443756103515625">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Text>
+                                <Text fill="#ff2301" layoutX="14.0" layoutY="171.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Unidades Disponibles">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font></Text>
+                                <Text fill="#ff2301" layoutX="19.0" layoutY="225.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero de imagenes">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Text>
+                                <Text fill="#ff2301" layoutX="35.0" layoutY="276.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero de videos">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Text>
+                                <Text fill="#ff2301" layoutX="98.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Precio">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font></Text>
+                                <TextField fx:id="txtPrecio" layoutX="165.0" layoutY="311.0" style="-fx-background-color: #FFFFF0;" />
+                                <Button fx:id="buttonAgregarLibro" layoutX="378.0" layoutY="341.0" onAction="#handleButtonAction" prefHeight="39.0" prefWidth="123.0" style="-fx-background-color: #ff2301;" text="Agregar Libro" textFill="WHITE">
+                           <font>
+                              <Font size="13.0" />
+                           </font></Button>
+                                <TableView fx:id="tablaAgregar" layoutX="332.0" layoutY="84.0" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #FFFFF0;">
                                     <columns>
                                         <TableColumn fx:id="tableIsbnAgregar" prefWidth="103.20001220703125" text="Isbn">
                                             <cellValueFactory>
