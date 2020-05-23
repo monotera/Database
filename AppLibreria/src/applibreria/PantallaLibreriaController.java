@@ -150,7 +150,7 @@ public class PantallaLibreriaController implements Initializable {
 
     @FXML
     private void ManejadorBotonNuevoPrestamo(ActionEvent event) {
-
+        BotonAgregarLinea.setDisable(false);
         if (facadeLibreria.crearNuevoPrestamo()) {
             TextoLocalDate.setText(facadeLibreria.getPrestamoActual().getFecha().toString());
 
@@ -187,6 +187,7 @@ public class PantallaLibreriaController implements Initializable {
 
     @FXML
     private void ManejadorBotonAgregarMonedas(ActionEvent event) {
+        
     }
 
     @FXML
