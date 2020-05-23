@@ -13,9 +13,24 @@ public class Linea {
 
     private int cantidad;
     private Libro libroEnPrestamo;
+    private double subTotal;
 
     public Libro getLibroEnPrestamo() {
         return libroEnPrestamo;
+    }
+
+    public String getTitulo() {
+        return libroEnPrestamo.getTitulo();
+    }
+    public double getPrecioBase() {
+        return libroEnPrestamo.getPrecioBase();
+    }
+    public double getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
     }
 
     public void setLibroEnPrestamo(Libro libroEnPrestamo) {
@@ -40,7 +55,7 @@ public class Linea {
 
     @Override
     public String toString() {
-        return "Cantidad: " + this.cantidad + "\nLibro en Prestamo:"+this.libroEnPrestamo.toString();
+        return "Cantidad: " + this.cantidad + "\nLibro en Prestamo:" + this.libroEnPrestamo.toString();
     }
 
 }

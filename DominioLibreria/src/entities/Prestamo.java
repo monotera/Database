@@ -5,7 +5,9 @@
  */
 package entities;
 
+import Const.contantes;
 import java.lang.reflect.Array;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -14,10 +16,12 @@ import java.util.ArrayList;
  * @author USER
  */
 public class Prestamo {
+
     private LocalDateTime fecha;
     private int numero;
+    private double total;
     private ArrayList<Linea> lineas = new ArrayList<>();
-    private ArrayList<Moneda> pagoMoedas = new  ArrayList<>();
+    private ArrayList<Moneda> pagoMoedas = new ArrayList<>();
 
     public LocalDateTime getFecha() {
         return fecha;
@@ -25,6 +29,14 @@ public class Prestamo {
 
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
     }
 
     public int getNumero() {
@@ -59,8 +71,32 @@ public class Prestamo {
     }
 
     public Prestamo() {
-        
+        this.total = 0;
     }
-    
-    
+
+    public DtoResumen agregarLinea(Libro libro, int cantidad) {
+        DtoResumen dto = new DtoResumen();
+        Linea nuevaLienea = new Linea();
+        nuevaLienea.setLibroEnPrestamo(libro);
+        nuevaLienea.setCantidad(cantidad);
+        nuevaLienea.setSubTotal((libro.getPrecioBase() + (libro.getNumeroImagenes() * contantes.VALOR_IMAGEN) + (libro.getNumeroVideos() * contantes.VALOR_VIDEO)) * cantidad);//se da el subtotal
+        this.lineas.add(nuevaLienea);
+        calcularTotal(); 
+        dto.setTotal(this.total);
+        dto.setTama(lineas.size());
+        return dto;
+    }
+
+    private void calcularTotal() {
+        double tot = 0;
+        for (Linea l : lineas) {
+            tot += l.getSubTotal();
+        }
+        this.total = tot;
+    }
+
+    public void getFecha(Date date) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

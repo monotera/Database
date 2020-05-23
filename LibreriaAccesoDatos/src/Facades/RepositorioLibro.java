@@ -44,7 +44,7 @@ public class RepositorioLibro implements IGestionLibro{
     @Override
     public ArrayList<Libro> CargarLibros() {
         String SQl = "select * from BOOKS";
-        System.err.println("Insertadno datos");
+        System.err.println("Insertando datos");
        
        ArrayList<Libro> libros = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(constante.THINCONN,constante.USERNAME,constante.PASSWORD);

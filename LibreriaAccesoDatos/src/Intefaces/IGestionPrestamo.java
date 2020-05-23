@@ -6,6 +6,7 @@
 package Intefaces;
 
 import entities.Prestamo;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,4 +14,5 @@ import entities.Prestamo;
  */
 public interface IGestionPrestamo {
     void PersistirPrestamo(Prestamo prestamo);
+    ArrayList<Prestamo> cargarPrestamos();
 }
