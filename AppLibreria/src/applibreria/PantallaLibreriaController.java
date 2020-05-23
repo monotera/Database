@@ -10,6 +10,7 @@ import Facades.FacadeLibreria;
 import Interfaces.IFacadeLibreria;
 import entities.Libro;
 import entities.Linea;
+import entities.DtoResumen;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -101,6 +102,8 @@ public class PantallaLibreriaController implements Initializable {
     private Button BotonGenerarReporte;
     @FXML
     private Button botonEliminar;
+    @FXML
+    private Text textoCantiLineas;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -181,7 +184,9 @@ public class PantallaLibreriaController implements Initializable {
             int catidad = Integer.parseInt(TextCant.getText());
             for (Libro l : facadeLibreria.consultarLibros()) {
                 if (l.getTitulo() == titulo) {
-                    facadeLibreria.agregarLinea(l, catidad);
+                    DtoResumen res = facadeLibreria.agregarLinea(l, catidad);
+                    TextoTotalPrestamo.setText(Double.toString(res.getTotal()));
+                    textoCantiLineas.setText(Integer.toString(res.getTama()));
                 }
             }
         }else {

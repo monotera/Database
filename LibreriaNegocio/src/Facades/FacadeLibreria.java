@@ -106,7 +106,7 @@ public class FacadeLibreria implements IFacadeLibreria {
     @Override
     public boolean crearNuevoPrestamo() {
         prestamoActual = new Prestamo();
-        prestamoActual.setNumero(prestamos.size()+1);
+        prestamoActual.setNumero(prestamos.size() + 1);
         LocalDateTime t = LocalDateTime.now();
         this.prestamoActual.setFecha(t);
         if (this.catalogo.isEmpty()) {
@@ -123,9 +123,39 @@ public class FacadeLibreria implements IFacadeLibreria {
 
     @Override
     public DtoResumen agregarLinea(Libro libro, int cantidad) {
-       
-        return  prestamoActual.agregarLinea(libro, cantidad);
-        
+        //libro que mandamos exista y la cantidad sea igual o mayor, suma de los subtotales
+        DtoResumen res = new DtoResumen();
+        int bandera = cantiLibros(libro, cantidad);
+        if (bandera == 1) {
+            res.setAgregar(true);
+            res = prestamoActual.agregarLinea(libro, cantidad);
+            return res;
+        }
+        else{
+            res.setAgregar(false);
+            if (bandera == 0) {
+                 res.setMensaje("ERROR: no hay la cantidad suficiente de libros en el catalogo");
+            }
+            else{
+                res.setMensaje("ERROR: El libro no existe");
+            }
+        }
+        return res;
     }
 
+    private int existeLibro(Libro libro) {
+        return catalogo.indexOf(libro);
+    }
+    private int cantiLibros(Libro libro, int canti){
+        int respuesta = -1;
+        int indice = existeLibro(libro);
+        if(indice != -1){
+            int unidades = catalogo.get(indice).getUnidadDisponibles();
+            respuesta = 0;
+            if(unidades >= canti){
+                respuesta = 1;
+            }
+        }
+        return respuesta;
+    }
 }

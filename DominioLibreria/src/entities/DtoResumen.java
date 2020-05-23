@@ -18,9 +18,18 @@ public class DtoResumen {
     private double total;
     private double saldo;
     private double vueltos;
+    private int tama = 0;
 
     public String getMensaje() {
         return mensaje;
+    }
+
+    public int getTama() {
+        return tama;
+    }
+
+    public void setTama(int tama) {
+        this.tama = tama;
     }
 
     public DtoResumen() {

@@ -30,13 +30,14 @@ public class RepositorioPrestamo implements IGestionPrestamo {
 
     @Override
     public void PersistirPrestamo(Prestamo prestamo) {
-        String SQl = "insert into PRESTAMO (NUMERO,FECHA) VALUES (sequiencia_Prestamo.NEXTVAL,?);";
+        String SQl = "insert into PRESTAMO (NUMERO,FECHA,TOTAL) VALUES (?,?,?);";
         System.err.println("Insertadno datos");
 
         try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
                 PreparedStatement pr = conn.prepareStatement(SQl)) {
-
-            pr.setDate(1, Date.valueOf(prestamo.getFecha().toLocalDate()));
+            pr.setInt(1, prestamo.getNumero());
+            pr.setDate(2, Date.valueOf(prestamo.getFecha().toLocalDate()));
+            pr.setDouble(3, prestamo.getTotal());
             conn.close();
         } catch (Exception ex) {
             System.out.println("Error de conexion:" + ex.toString());
@@ -60,6 +61,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
                 Timestamp t = new Timestamp(date.getTime());
                 p.setFecha(t.toLocalDateTime());
                 p.setNumero(rs.getInt("NUMERO"));
+                p.setTotal(rs.getDouble("TOTAL"));
                 prestamos.add(p);
             }
             conn.close();
