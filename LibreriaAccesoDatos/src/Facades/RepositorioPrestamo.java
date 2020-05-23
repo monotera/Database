@@ -12,6 +12,9 @@ import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 /**
  *
@@ -35,6 +38,46 @@ public class RepositorioPrestamo implements IGestionPrestamo{
         }
     }
 
-  
+    @Override
+    public ArrayList<Prestamo> cargarPrestamos() {
+        String SQl = "select * from PRESTAMO";
+        System.err.println("Insertadno datos");
+       
+       ArrayList<Prestamo> prestamos = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(constante.THINCONN,constante.USERNAME,constante.PASSWORD);
+                PreparedStatement ps = conn.prepareStatement(SQl);
+                ResultSet rs = ps.executeQuery();) {
+            while (rs.next()) {
+                Prestamo p = new Prestamo();
+                
+                p.setFecha(LocalDateTime.parse(rs.getDate("FECHA").toString()));
+                p.setNumero(rs.getInt("NUMERO"));
+                prestamos.add(p);
+            }
+        } catch (Exception ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+
+        }
+        String SQL = "select id,cantidad,ISBNlibro,NumeroPrestamo from linea, Prestamo where numeroprestamo = numero";
+        try (Connection conn = DriverManager.getConnection(constante.THINCONN,constante.USERNAME,constante.PASSWORD);
+                PreparedStatement ps = conn.prepareStatement(SQl);
+                ResultSet rs = ps.executeQuery();) {
+            while (rs.next()) {
+                Prestamo p = new Prestamo();
+                
+                p.setFecha(LocalDateTime.parse(rs.getDate("FECHA").toString()));
+                p.setNumero(rs.getInt("NUMERO"));
+                prestamos.add(p);
+            }
+        } catch (Exception ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+
+        }
+        
+        
+        return prestamos;
+    }
     
 }

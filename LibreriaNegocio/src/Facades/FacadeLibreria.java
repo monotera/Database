@@ -30,6 +30,7 @@ public class FacadeLibreria implements IFacadeLibreria {
 
     public FacadeLibreria() {
         this.catalogo = gestionLibro.CargarLibros();
+        this.prestamos = gestionPrestamo.cargarPrestamos();
     }
 
     public ArrayList<Libro> getCatalogo() {
@@ -105,6 +106,7 @@ public class FacadeLibreria implements IFacadeLibreria {
     @Override
     public boolean crearNuevoPrestamo() {
         prestamoActual = new Prestamo();
+        prestamoActual.setNumero(prestamos.size()+1);
         LocalDateTime t = LocalDateTime.now();
         this.prestamoActual.setFecha(t);
         if (this.catalogo.isEmpty()) {

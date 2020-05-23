@@ -6,6 +6,7 @@
 package entities;
 
 import java.lang.reflect.Array;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -70,6 +71,10 @@ public class Prestamo {
         nuevaLienea.setSubTotal(libro.getPrecioBase()* cantidad);//se da el subtotal
         this.lineas.add(nuevaLienea);
         return dto;
+    }
+
+    public void getFecha(Date date) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
     

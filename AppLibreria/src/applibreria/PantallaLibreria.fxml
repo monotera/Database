@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="510.0" prefWidth="584.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applibreria.PantallaLibreriaController">
+<AnchorPane id="AnchorPane" prefHeight="581.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applibreria.PantallaLibreriaController">
     <children>
-        <TabPane prefHeight="510.0" prefWidth="584.0" tabClosingPolicy="UNAVAILABLE">
+        <TabPane prefHeight="581.0" prefWidth="700.0" tabClosingPolicy="UNAVAILABLE">
             <tabs>
                 <Tab text="Agregar">
                     <content>
@@ -52,7 +52,7 @@
                 </Tab>
                 <Tab text="Prestamo">
                     <content>
-                        <AnchorPane fx:id="BotonValorDenominacion" minHeight="0.0" minWidth="0.0" prefHeight="481.0" prefWidth="584.0" style="-fx-background-color: #778899;">
+                        <AnchorPane fx:id="BotonValorDenominacion" minHeight="0.0" minWidth="0.0" prefHeight="524.0" prefWidth="674.0" style="-fx-background-color: #778899;">
                             <children>
                                 <Text fx:id="texto1KL" fill="#171717" layoutX="33.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="KIOSCO LIBROS" wrappingWidth="114.13671875" />
                                 <Button fx:id="BotonNuevoPrestamo" layoutX="216.0" layoutY="22.0" mnemonicParsing="false" onAction="#ManejadorBotonNuevoPrestamo" text="Nuevo Prestamo" />
