@@ -21,7 +21,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 /**
@@ -30,21 +29,35 @@ import java.time.LocalDate;
  */
 public class RepositorioPrestamo implements IGestionPrestamo {
 
+    private void commit() {
+        String SQl = "commit";
+
+        try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
+                PreparedStatement pr = conn.prepareStatement(SQl)) {
+
+            pr.execute();
+            conn.close();
+            System.err.println("Commit ejecutado");
+
+        } catch (Exception ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+
+    }
+
     @Override
     public boolean PersistirPrestamo(Prestamo prestamo) {
-        String SQl = "insert into PRESTAMO (NUMERO,FECHA,TOTAL) VALUES (?,?,?);";
+        String SQl = "INSERT into PRESTAMO (NUMERO,FECHA,TOTAL) VALUES (?,?,?)";
         System.err.println("Insertadno prestamo");
-        
+
         boolean dto;
         try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
                 PreparedStatement pr = conn.prepareStatement(SQl)) {
             pr.setInt(1, prestamo.getNumero());
-            String d = "2019-01-15";
-            java.util.Date utilDate = new SimpleDateFormat("YYYY-MM-DD").parse(d);
-            java.sql.Date sqldate = new java.sql.Date(utilDate.getTime());
-            pr.setDate(2, sqldate);
+            pr.setDate(2, Date.valueOf(prestamo.getFecha().toLocalDate()));
             pr.setDouble(3, prestamo.getTotal());
-            pr.executeQuery();
+            pr.execute();
             conn.close();
             dto = true;
         } catch (Exception ex) {
@@ -52,6 +65,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
             ex.printStackTrace();
             dto = false;
         }
+        commit();
         return dto;
     }
 
@@ -135,63 +149,61 @@ public class RepositorioPrestamo implements IGestionPrestamo {
                     return l;
                 }
             }
-          
+
             conn.close();
         } catch (Exception ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
 
         }
+       
         return null;
     }
 
     @Override
     public boolean actualizarExistencias(Libro libro, int cantidad) {
-        String SQL = "UPDATE  books"
-                + "SET unidadesdisponibles = unidadesdisponibles - ?"
-                + "WHERE isbn = ?;"
-                +"commit;";
-       boolean dto ;
-       System.err.println("Actualizando exitencias");
+        String SQL = "UPDATE  books SET unidadesdisponibles = unidadesdisponibles - ? WHERE isbn = ?";
+        boolean dto;
+        System.err.println("Actualizando exitencias");
         try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
                 PreparedStatement pr = conn.prepareStatement(SQL)) {
             pr.setInt(1, cantidad);
             pr.setString(2, libro.getIsbn());
             pr.execute();
             conn.close();
-            dto= (true);
+            dto = (true);
         } catch (Exception ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
-            dto= (false);
+            dto = (false);
 
         }
+        commit();
         return dto;
     }
 
-   
-
     @Override
-    public boolean insertarLineas(Linea linea,int numeroPrestamo) {
-        String SQL = "insert into linea (ID, CANTIDAD, ISBLIBRO, NUMEROPRESTAMO) VALUES (codigolinea.nextval,?,?,?); commit;";
-        boolean  dto;
+    public boolean insertarLineas(Linea linea, int numeroPrestamo) {
+        String SQL = "INSERT INTO linea ( CANTIDAD, ISBLIBRO, NUMEROPRESTAMO) VALUES (?,?,?)";
+        boolean dto;
         System.err.println("Insertadno lineas");
         try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
                 PreparedStatement pr = conn.prepareStatement(SQL)) {
             pr.setInt(1, linea.getCantidad());
             pr.setString(2, linea.getLibroEnPrestamo().getIsbn());
-            pr.setInt(3,numeroPrestamo);
+            pr.setInt(3, numeroPrestamo);
             pr.execute();
             conn.close();
-            dto =(true);
-            
+            dto = (true);
+
         } catch (Exception ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
-            dto = false ;
+            dto = false;
         }
+        commit();
         return dto;
-        
+
     }
 
 }

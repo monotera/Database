@@ -204,7 +204,7 @@ public class FacadeLibreria implements IFacadeLibreria {
         dto = this.prestamoActual.terminarPrestamo();
         if (dto.isAgregar()) {
             if (gestionPrestamo.PersistirPrestamo(prestamoActual)) {
-               // dto = actualizarExistencias();
+               dto = actualizarExistencias();
             } else {
                 dto.setAgregar(false);
                 dto.setMensaje("No se pude insertar el prestamo en la BD");

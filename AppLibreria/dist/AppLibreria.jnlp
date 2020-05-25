@@ -10,8 +10,8 @@
     <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
     <jar href="AppLibreria.jar" size="8418" download="eager" />
     <jar href="lib\DominioLibreria.jar" size="15442" download="eager" />
-    <jar href="lib\LibreriaAccesoDatos.jar" size="18419" download="eager" />
-    <jar href="lib\LibreriaNegocio.jar" size="8500" download="eager" />
+    <jar href="lib\LibreriaAccesoDatos.jar" size="19008" download="eager" />
+    <jar href="lib\LibreriaNegocio.jar" size="8519" download="eager" />
     <jar href="lib\ojdbc7.jar" size="3699265" download="eager" />
   </resources>
   <applet-desc  width="800" height="600" main-class="com.javafx.main.NoJavaFXFallback"  name="AppLibreria" >
