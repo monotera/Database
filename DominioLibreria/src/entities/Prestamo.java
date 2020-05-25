@@ -112,20 +112,53 @@ public class Prestamo {
         dto.setMensaje("No se pudo eliminar");
         return dto;
     }
-    public  DtoResumen agregarMoneda(Denominacion denomincion, int cantidad)
-    {
+
+    public DtoResumen agregarMoneda(Denominacion denomincion, int cantidad) {
         DtoResumen dto = new DtoResumen();
-        Moneda monedaNueva = new Moneda();
-        monedaNueva.setDenominacion(denomincion);
-        if(this.pagoMonedas.add(monedaNueva))
-        {
-            dto.setAgregar(true);
-            dto.setMensaje("Se pudo agregar la moneda");
-            return dto;
+
+        for (int i = 0; i < cantidad; i++) {
+            Moneda monedaNueva = new Moneda();
+            monedaNueva.setDenominacion(denomincion);
+            if (this.pagoMonedas.add(monedaNueva)) {
+                dto.setAgregar(true);
+                dto.setMensaje("Se pudo agregar la moneda");
+
+                
+            } else {
+                dto.setAgregar(false);
+                dto.setMensaje("No se pudo agregar la moneda");
+
+            }
         }
-        dto.setAgregar(false);
-        dto.setMensaje("No se pudo agregar la moneda");
+        dto.setSaldo(calcularSaldo());
         return dto;
     }
 
+    private double calcularSaldo() {
+        double saldo = 0;
+        for (Moneda m : this.pagoMonedas) {
+            saldo += m.getValor();
+        }
+        return saldo;
+
+    }
+    public DtoResumen terminarPrestamo()
+    {
+        DtoResumen dto = new DtoResumen();
+        if(verificarSaldo())
+        {
+            dto.setAgregar(true);
+            dto.setMensaje("Se realizo el prestamo");
+        }else
+        {
+            dto.setAgregar(false);
+            dto.setMensaje("No hay saldo suficiente");
+        }
+        return dto;
+    }
+    private boolean verificarSaldo()
+    {
+        double saldo  = calcularSaldo();
+        return saldo >= total;
+    }
 }

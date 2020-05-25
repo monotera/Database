@@ -177,7 +177,7 @@ public class FacadeLibreria implements IFacadeLibreria {
             dto.setAgregar(false);
             return dto;
         }
-        
+
         return this.prestamoActual.eliminarLinea(linea);
     }
 
@@ -189,13 +189,54 @@ public class FacadeLibreria implements IFacadeLibreria {
     @Override
     public DtoResumen agregarMoneda(Denominacion denomincion, int cantidad) {
         DtoResumen dto = new DtoResumen();
-        if(denomincion == null)
-        {
-            dto. setAgregar(false);
+        if (denomincion == null) {
+            dto.setAgregar(false);
             dto.setMensaje("El campo esta vacio");
             return dto;
         }
-        
+
         return this.prestamoActual.agregarMoneda(denomincion, cantidad);
     }
+
+    @Override
+    public DtoResumen terminarPrestamo() {
+        DtoResumen dto = new DtoResumen();
+        dto = this.prestamoActual.terminarPrestamo();
+        if (dto.isAgregar()) {
+            if (gestionPrestamo.PersistirPrestamo(prestamoActual)) {
+               // dto = actualizarExistencias();
+            } else {
+                dto.setAgregar(false);
+                dto.setMensaje("No se pude insertar el prestamo en la BD");
+            }
+        }
+        return dto;
+    }
+
+    private DtoResumen actualizarExistencias() {
+        int cantidad, numeroPrestamo;
+        numeroPrestamo = this.prestamoActual.getNumero();
+        DtoResumen dto = new DtoResumen();
+        for (Linea l : this.prestamoActual.getLineas()) {
+            Libro lib = new Libro();
+
+            lib = l.getLibroEnPrestamo();
+            cantidad = l.getCantidad();
+
+            if (gestionPrestamo.actualizarExistencias(lib, cantidad)) {
+                if (gestionPrestamo.insertarLineas(l, numeroPrestamo)) {
+                    dto.setAgregar(true);
+                } else {
+                    dto.setAgregar(false);
+                    dto.setMensaje("No se pude insertar la linea en la BD");
+                }
+            } else {
+                dto.setAgregar(false);
+                dto.setMensaje("No se pude actualizar exitencias en BD");
+            }
+
+        }
+        return dto;
+    }
+
 }

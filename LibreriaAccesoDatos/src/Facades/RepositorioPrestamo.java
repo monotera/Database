@@ -7,6 +7,7 @@ package Facades;
 
 import Intefaces.IGestionPrestamo;
 import constants.constante;
+import entities.DtoResumen;
 import entities.Libro;
 import entities.Linea;
 import entities.Prestamo;
@@ -20,6 +21,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 
 /**
@@ -29,27 +31,34 @@ import java.time.LocalDate;
 public class RepositorioPrestamo implements IGestionPrestamo {
 
     @Override
-    public void PersistirPrestamo(Prestamo prestamo) {
+    public boolean PersistirPrestamo(Prestamo prestamo) {
         String SQl = "insert into PRESTAMO (NUMERO,FECHA,TOTAL) VALUES (?,?,?);";
-        System.err.println("Insertadno datos");
-
+        System.err.println("Insertadno prestamo");
+        
+        boolean dto;
         try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
                 PreparedStatement pr = conn.prepareStatement(SQl)) {
             pr.setInt(1, prestamo.getNumero());
-            pr.setDate(2, Date.valueOf(prestamo.getFecha().toLocalDate()));
+            String d = "2019-01-15";
+            java.util.Date utilDate = new SimpleDateFormat("YYYY-MM-DD").parse(d);
+            java.sql.Date sqldate = new java.sql.Date(utilDate.getTime());
+            pr.setDate(2, sqldate);
             pr.setDouble(3, prestamo.getTotal());
+            pr.executeQuery();
             conn.close();
+            dto = true;
         } catch (Exception ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
-
+            dto = false;
         }
+        return dto;
     }
 
     @Override
     public ArrayList<Prestamo> cargarPrestamos() {
         String SQl = "select * from PRESTAMO";
-        System.err.println("Insertadno datos");
+        System.err.println("Cargando prestamos");
 
         ArrayList<Prestamo> prestamos = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
@@ -70,52 +79,51 @@ public class RepositorioPrestamo implements IGestionPrestamo {
             ex.printStackTrace();
 
         }
-        return  buscarLineas(prestamos); 
+        return buscarLineas(prestamos);
     }
-    public ArrayList<Prestamo> buscarLineas(ArrayList<Prestamo> listaPrestamos)
-    {
+
+    public ArrayList<Prestamo> buscarLineas(ArrayList<Prestamo> listaPrestamos) {
         String SQL2 = "select cantidad,ISBNlibro,NumeroPrestamo from linea, Prestamo where numeroprestamo = ?";
+        System.err.println("Buscando Lineas");
         for (Prestamo p : listaPrestamos) {
             ArrayList<Linea> l = new ArrayList<>();
             try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
-                    PreparedStatement ps = conn.prepareStatement(SQL2);
-                    ) {
+                    PreparedStatement ps = conn.prepareStatement(SQL2);) {
                 {
-                    int x =p.getNumero();
-                    ps.setInt(1,x);
-                       
+                    int x = p.getNumero();
+                    ps.setInt(1, x);
+
                     ResultSet rs = ps.executeQuery();
-                    
-                   while(rs.next())
-                    {
-                      Linea lin = new Linea();
-                      lin.setCantidad(rs.getInt("CANTIDAD"));
-                      lin.setLibroEnPrestamo(buscarLibro(rs.getString("ISBNlibro"))) ;
-                      l.add(lin);
+
+                    while (rs.next()) {
+                        Linea lin = new Linea();
+                        lin.setCantidad(rs.getInt("CANTIDAD"));
+                        lin.setLibroEnPrestamo(buscarLibro(rs.getString("ISBNlibro")));
+                        l.add(lin);
                     }
-                     p.setLineas(l);
-                     conn.close();
+                    p.setLineas(l);
+                    conn.close();
 
                 }
             } catch (Exception ex) {
                 System.out.println("Error de conexion:" + ex.toString());
                 ex.printStackTrace();
 
-            } 
+            }
         }
         return listaPrestamos;
     }
-    public Libro buscarLibro(String isn)
-    {
+
+    public Libro buscarLibro(String isn) {
         String SQl = "select * from BOOKS";
-        System.err.println("Insertadno datos");
-       
-       ArrayList<Libro> libros = new ArrayList<>();
-        try (Connection conn = DriverManager.getConnection(constante.THINCONN,constante.USERNAME,constante.PASSWORD);
+        System.err.println("Sancando libros");
+
+        ArrayList<Libro> libros = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
                 PreparedStatement ps = conn.prepareStatement(SQl);
                 ResultSet rs = ps.executeQuery();) {
             while (rs.next()) {
-                
+
                 Libro l = new Libro();
                 l.setIsbn(rs.getString("ISBN"));
                 l.setNumeroImagenes(rs.getInt("NUMEROIMAGENES"));
@@ -123,11 +131,11 @@ public class RepositorioPrestamo implements IGestionPrestamo {
                 l.setTitulo(rs.getString("TITULO"));
                 l.setNumeroVideos(rs.getInt("NUMEROIMAGENES"));
                 l.setUnidadDisponibles(rs.getInt("UNIDADESDISPONIBLES"));
-                if(l.getIsbn()== isn)
-                {
+                if (l.getIsbn() == isn) {
                     return l;
                 }
             }
+          
             conn.close();
         } catch (Exception ex) {
             System.out.println("Error de conexion:" + ex.toString());
@@ -135,6 +143,55 @@ public class RepositorioPrestamo implements IGestionPrestamo {
 
         }
         return null;
+    }
+
+    @Override
+    public boolean actualizarExistencias(Libro libro, int cantidad) {
+        String SQL = "UPDATE  books"
+                + "SET unidadesdisponibles = unidadesdisponibles - ?"
+                + "WHERE isbn = ?;"
+                +"commit;";
+       boolean dto ;
+       System.err.println("Actualizando exitencias");
+        try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
+                PreparedStatement pr = conn.prepareStatement(SQL)) {
+            pr.setInt(1, cantidad);
+            pr.setString(2, libro.getIsbn());
+            pr.execute();
+            conn.close();
+            dto= (true);
+        } catch (Exception ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+            dto= (false);
+
+        }
+        return dto;
+    }
+
+   
+
+    @Override
+    public boolean insertarLineas(Linea linea,int numeroPrestamo) {
+        String SQL = "insert into linea (ID, CANTIDAD, ISBLIBRO, NUMEROPRESTAMO) VALUES (codigolinea.nextval,?,?,?); commit;";
+        boolean  dto;
+        System.err.println("Insertadno lineas");
+        try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
+                PreparedStatement pr = conn.prepareStatement(SQL)) {
+            pr.setInt(1, linea.getCantidad());
+            pr.setString(2, linea.getLibroEnPrestamo().getIsbn());
+            pr.setInt(3,numeroPrestamo);
+            pr.execute();
+            conn.close();
+            dto =(true);
+            
+        } catch (Exception ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+            dto = false ;
+        }
+        return dto;
+        
     }
 
 }

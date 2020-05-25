@@ -5,6 +5,9 @@
  */
 package Intefaces;
 
+import entities.DtoResumen;
+import entities.Libro;
+import entities.Linea;
 import entities.Prestamo;
 import java.util.ArrayList;
 
@@ -13,6 +16,13 @@ import java.util.ArrayList;
  * @author USER
  */
 public interface IGestionPrestamo {
-    void PersistirPrestamo(Prestamo prestamo);
+
+    boolean PersistirPrestamo(Prestamo prestamo);
+
     ArrayList<Prestamo> cargarPrestamos();
+
+    boolean actualizarExistencias(Libro libro, int cantidad);
+    
+    boolean insertarLineas(Linea linea, int numeroPrestamo);
+
 }

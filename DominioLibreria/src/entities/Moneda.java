@@ -11,8 +11,17 @@ import Enums.Denominacion;
  */
 public class Moneda {
     private Denominacion denominacion;
+    private  int valor;
 
     public Moneda() {
+    }
+
+    public int getValor() {
+        return valor;
+    }
+
+    public void setValor(int valor) {
+        this.valor = valor;
     }
 
     public Moneda(Denominacion denominacion) {
@@ -25,6 +34,13 @@ public class Moneda {
 
     public void setDenominacion(Denominacion denominacion) {
         this.denominacion = denominacion;
+        if(denominacion == Denominacion.QUIENTOS)
+        {
+            setValor(500);
+        }else if(denominacion == Denominacion.MIL)
+        {
+            setValor(1000);
+        }
     }
     @Override
     public String toString(){

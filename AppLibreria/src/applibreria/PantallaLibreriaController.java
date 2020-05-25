@@ -141,6 +141,7 @@ public class PantallaLibreriaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         //facadeLibreria.cargarLibros();
         llenarCampos();
+        resetAll();
 
     }
 
@@ -185,18 +186,24 @@ public class PantallaLibreriaController implements Initializable {
     private void ManejadorBotonAgregarLinea(ActionEvent event) {
         String titulo = ComboboxSeleccionLibros.getSelectionModel().getSelectedItem().toString();
         DtoResumen res = new DtoResumen();
-        if (!TextCant.getText().isEmpty()) {
-            int catidad = Integer.parseInt(TextCant.getText());
-            for (Libro l : facadeLibreria.consultarLibros()) {
-                if (l.getTitulo() == titulo) {
-                    res = facadeLibreria.agregarLinea(l, catidad);
-                    TextoTotalPrestamo.setText(Double.toString(res.getTotal()));
-                    textoCantiLineas.setText(Integer.toString(res.getTama()));
+        try {
+            if (!TextCant.getText().isEmpty()) {
+                int catidad = Integer.parseInt(TextCant.getText());
+                for (Libro l : facadeLibreria.consultarLibros()) {
+                    if (l.getTitulo() == titulo) {
+                        res = facadeLibreria.agregarLinea(l, catidad);
+                        TextoTotalPrestamo.setText(Double.toString(res.getTotal()));
+                        textoCantiLineas.setText(Integer.toString(res.getTama()));
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Cantidad incompleta", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Cantidad incompleta", "Error", JOptionPane.ERROR_MESSAGE);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Caracter invalido", "Error", JOptionPane.ERROR_MESSAGE);
         }
+
         if (!res.isAgregar()) {
             JOptionPane.showMessageDialog(null, res.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -204,39 +211,50 @@ public class PantallaLibreriaController implements Initializable {
         if (facadeLibreria.getPrestamoActual().getLineas().size() != 0) {
             BotonTerminarPrestamo.setDisable(false);
         }
+        reset();
     }
 
     @FXML
     private void ManejadorBotonAgregarMonedas(ActionEvent event) {
         Denominacion d = ComboboxDenominacion.getSelectionModel().getSelectedItem();
         int cantidad;
-
+        DtoResumen dto = new DtoResumen();
         try {
             cantidad = Integer.parseInt(TextCantMonedas.getText());
             System.err.println(cantidad);
-            DtoResumen dto = facadeLibreria.agregarMoneda(d, cantidad);
+            dto = facadeLibreria.agregarMoneda(d, cantidad);
             if (!dto.isAgregar()) {
                 JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
                 textoExito.setFill(Paint.valueOf("#c10909"));
                 textoExito.setText("Error");
-            }else{
-            textoExito.setFill(Paint.valueOf("#00b524"));
-            textoExito.setText("Exito");
+            } else {
+                textoExito.setFill(Paint.valueOf("#00b524"));
+                textoExito.setText("Exito");
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Solo se aceptan enteros", "Error", JOptionPane.ERROR_MESSAGE);
             textoExito.setFill(Paint.valueOf("#c10909"));
-                textoExito.setText("Error");
+            textoExito.setText("Error");
         }
+        TextoSaldoDispMonedas.setText("$" + Double.toString(dto.getSaldo()));
     }
 
     @FXML
     private void ManejadorBotonTerminarPrestamo(ActionEvent event) {
+        DtoResumen dto =  facadeLibreria.terminarPrestamo();
+        if(dto.isAgregar())
+        {
+           reset();
+        }else
+        {
+           JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE); 
+        }
     }
 
     @FXML
     private void ManejadorBotonGenerarReporte(ActionEvent event) {
+        
     }
 
     @FXML
@@ -252,6 +270,27 @@ public class PantallaLibreriaController implements Initializable {
         } else {
             JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+
+    }
+    private  void resetAll()
+    {
+        textoExito.setText(" ");
+        ComboboxDenominacion.setValue(null);
+        TextCantMonedas.setText("0");
+        ComboboxSeleccionLibros.setValue(null);
+        TextCant.setText(null);
+        TextoLocalDate.setText("2020-XX-XXTXX:XX:XX.XXX");
+        textoCantiLineas.setText("0");
+        TextoTotalPrestamo.setText("0.0");
+        TablaLineasDelPrestamo.getItems().clear();
+        
+    }
+    private void reset() {
+        textoExito.setText(" ");
+        ComboboxDenominacion.setValue(null);
+        TextCantMonedas.setText("0");
+        ComboboxSeleccionLibros.setValue(null);
+        TextCant.setText(null);
 
     }
 }

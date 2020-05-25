@@ -48,4 +48,6 @@ public interface IFacadeLibreria {
     DtoResumen eliminarLinea(Linea linea);
     
     DtoResumen agregarMoneda(Denominacion denominacion, int cantidad);
+    
+    DtoResumen terminarPrestamo();
 }
