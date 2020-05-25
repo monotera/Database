@@ -170,11 +170,12 @@ public class PantallaLibreriaController implements Initializable {
 
     private void llenarCamposPrestamo() {
         TablaLineasDelPrestamo.getItems().clear();
-        
+
         for (Linea l : facadeLibreria.getPrestamoActual().getLineas()) {
             TablaLineasDelPrestamo.getItems().add(l);
 
         }
+
     }
 
     @FXML
@@ -190,22 +191,21 @@ public class PantallaLibreriaController implements Initializable {
                     textoCantiLineas.setText(Integer.toString(res.getTama()));
                 }
             }
-        }else {
+        } else {
             JOptionPane.showMessageDialog(null, "Cantidad incompleta", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        if(!res.isAgregar()){
-            JOptionPane.showMessageDialog(null,res.getMensaje() , "Error", JOptionPane.ERROR_MESSAGE);
-        }        
-       llenarCamposPrestamo();
-       if(facadeLibreria.getPrestamoActual().getLineas().size() != 0)
-       {
-           BotonTerminarPrestamo.setDisable(false);
-       }
+        if (!res.isAgregar()) {
+            JOptionPane.showMessageDialog(null, res.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        llenarCamposPrestamo();
+        if (facadeLibreria.getPrestamoActual().getLineas().size() != 0) {
+            BotonTerminarPrestamo.setDisable(false);
+        }
     }
 
     @FXML
     private void ManejadorBotonAgregarMonedas(ActionEvent event) {
-        
+
     }
 
     @FXML
@@ -218,5 +218,17 @@ public class PantallaLibreriaController implements Initializable {
 
     @FXML
     private void ManejadorBotonEliminar(ActionEvent event) {
+        Linea l = TablaLineasDelPrestamo.getSelectionModel().getSelectedItem();
+        DtoResumen dto = new DtoResumen();
+        if (dto.isAgregar()) {
+            facadeLibreria.eliminarLinea(l);
+            textoCantiLineas.setText(Integer.toString(dto.getTama()));
+            TextoTotalPrestamo.setText(Double.toString(dto.getTotal()));
+            llenarCamposPrestamo();
+        }else
+        {
+            JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 }

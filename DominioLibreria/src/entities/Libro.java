@@ -75,6 +75,14 @@ public class Libro {
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
+    public void disminuirCantidad(int cantidad)
+    {
+        this.unidadDisponibles -= cantidad;
+    }
+    public void aumentarCantidad(int cantidad)
+    {
+        this.unidadDisponibles += cantidad;
+    }
     @Override
     public String toString(){
         return "Titulo :"+this.titulo+"\nIsbn:"+this.isbn+" \nPrecio base: "+this.precioBase + "\nUnidades Disponibles: "+

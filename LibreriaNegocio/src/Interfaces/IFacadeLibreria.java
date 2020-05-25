@@ -43,4 +43,6 @@ public interface IFacadeLibreria {
     void setPrestamoActual(Prestamo prestamoActual);
 
     DtoResumen agregarLinea(Libro libro, int cantidad);
+
+    DtoResumen eliminarLinea(Linea linea);
 }

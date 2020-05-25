@@ -10,6 +10,7 @@ import Intefaces.IGestionPrestamo;
 import Interfaces.IFacadeLibreria;
 import entities.DtoResumen;
 import entities.Libro;
+import entities.Linea;
 import entities.Prestamo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -152,9 +153,34 @@ public class FacadeLibreria implements IFacadeLibreria {
             int unidades = catalogo.get(indice).getUnidadDisponibles();
             respuesta = 0;
             if (unidades >= canti) {
+                catalogo.get(indice).disminuirCantidad(canti);
                 respuesta = 1;
             }
         }
         return respuesta;
+    }
+
+    @Override
+    public DtoResumen eliminarLinea(Linea linea) {
+        DtoResumen dto = new DtoResumen();
+        if (VerificarLinea(linea)) {
+            dto.setMensaje("El valor es NULO");
+            dto.setAgregar(false);
+            return dto;
+        }
+
+        int index = this.prestamoActual.getLineas().indexOf(linea);
+        if (index == -1) {
+            dto.setMensaje("El libro no esta en la linea ");
+            dto.setAgregar(false);
+            return dto;
+        }
+        
+        return this.prestamoActual.eliminarLinea(linea);
+    }
+
+    private boolean VerificarLinea(Linea l) {
+
+        return (l == null);
     }
 }

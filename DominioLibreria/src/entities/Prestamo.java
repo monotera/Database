@@ -81,7 +81,7 @@ public class Prestamo {
         nuevaLienea.setCantidad(cantidad);
         nuevaLienea.setSubTotal((libro.getPrecioBase() + (libro.getNumeroImagenes() * contantes.VALOR_IMAGEN) + (libro.getNumeroVideos() * contantes.VALOR_VIDEO)) * cantidad);//se da el subtotal
         this.lineas.add(nuevaLienea);
-        calcularTotal(); 
+        calcularTotal();
         dto.setTotal(this.total);
         dto.setTama(lineas.size());
         return dto;
@@ -95,8 +95,21 @@ public class Prestamo {
         this.total = tot;
     }
 
-    public void getFecha(Date date) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public DtoResumen eliminarLinea(Linea l) {
+        DtoResumen dto = new DtoResumen();
+        boolean remove = this.lineas.remove(l);
+        if (remove) {
+            dto.setAgregar(true);
+            l.getLibroEnPrestamo().aumentarCantidad(l.getCantidad());
+            dto.setMensaje("Se elimino de forma correacta la linea");
+            calcularTotal();
+            dto.setTotal(this.total);
+            dto.setTama(this.lineas.size());
+            return dto;
+        }
+        dto.setAgregar(false);
+        dto.setMensaje("No se pudo eliminar");
+        return dto;
     }
 
 }
