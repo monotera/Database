@@ -5,6 +5,7 @@
  */
 package Interfaces;
 
+import Enums.Denominacion;
 import Intefaces.IGestionLibro;
 import Intefaces.IGestionPrestamo;
 import entities.*;
@@ -45,4 +46,6 @@ public interface IFacadeLibreria {
     DtoResumen agregarLinea(Libro libro, int cantidad);
 
     DtoResumen eliminarLinea(Linea linea);
+    
+    DtoResumen agregarMoneda(Denominacion denominacion, int cantidad);
 }

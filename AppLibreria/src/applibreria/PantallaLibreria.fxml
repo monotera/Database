@@ -12,7 +12,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="504.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applibreria.PantallaLibreriaController">
+<AnchorPane id="AnchorPane" prefHeight="504.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applibreria.PantallaLibreriaController">
     <children>
         <TabPane prefHeight="506.0" prefWidth="700.0" style="-fx-background-color: #FFFFF0;" tabClosingPolicy="UNAVAILABLE">
             <tabs>
@@ -167,6 +167,7 @@
                                 <Button fx:id="BotonGenerarReporte" layoutX="407.0" layoutY="387.0" mnemonicParsing="false" onAction="#ManejadorBotonGenerarReporte" style="-fx-background-color: #FFFFF0;" text="Generar Reporte" />
                                 <Button fx:id="botonEliminar" layoutX="572.0" layoutY="387.0" mnemonicParsing="false" onAction="#ManejadorBotonEliminar" prefHeight="24.0" prefWidth="90.0" style="-fx-background-color: #FFFFF0;" text="Eliminar" />
                                 <Text fx:id="textoCantiLineas" fill="WHITE" layoutX="156.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="120.42245483398438" />
+                        <Text fx:id="textoExito" layoutX="512.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="29.5999755859375" />
                             </children>
                         </AnchorPane>
                     </content>

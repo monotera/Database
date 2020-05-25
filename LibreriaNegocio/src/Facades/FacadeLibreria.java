@@ -5,12 +5,14 @@
  */
 package Facades;
 
+import Enums.Denominacion;
 import Intefaces.IGestionLibro;
 import Intefaces.IGestionPrestamo;
 import Interfaces.IFacadeLibreria;
 import entities.DtoResumen;
 import entities.Libro;
 import entities.Linea;
+import entities.Moneda;
 import entities.Prestamo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -182,5 +184,18 @@ public class FacadeLibreria implements IFacadeLibreria {
     private boolean VerificarLinea(Linea l) {
 
         return (l == null);
+    }
+
+    @Override
+    public DtoResumen agregarMoneda(Denominacion denomincion, int cantidad) {
+        DtoResumen dto = new DtoResumen();
+        if(denomincion == null)
+        {
+            dto. setAgregar(false);
+            dto.setMensaje("El campo esta vacio");
+            return dto;
+        }
+        
+        return this.prestamoActual.agregarMoneda(denomincion, cantidad);
     }
 }

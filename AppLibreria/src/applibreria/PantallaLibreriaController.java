@@ -27,6 +27,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
 import javax.swing.JOptionPane;
 
@@ -104,6 +105,8 @@ public class PantallaLibreriaController implements Initializable {
     private Button botonEliminar;
     @FXML
     private Text textoCantiLineas;
+    @FXML
+    private Text textoExito;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -205,7 +208,27 @@ public class PantallaLibreriaController implements Initializable {
 
     @FXML
     private void ManejadorBotonAgregarMonedas(ActionEvent event) {
+        Denominacion d = ComboboxDenominacion.getSelectionModel().getSelectedItem();
+        int cantidad;
 
+        try {
+            cantidad = Integer.parseInt(TextCantMonedas.getText());
+            System.err.println(cantidad);
+            DtoResumen dto = facadeLibreria.agregarMoneda(d, cantidad);
+            if (!dto.isAgregar()) {
+                JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
+                textoExito.setFill(Paint.valueOf("#c10909"));
+                textoExito.setText("Error");
+            }else{
+            textoExito.setFill(Paint.valueOf("#00b524"));
+            textoExito.setText("Exito");
+            }
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Solo se aceptan enteros", "Error", JOptionPane.ERROR_MESSAGE);
+            textoExito.setFill(Paint.valueOf("#c10909"));
+                textoExito.setText("Error");
+        }
     }
 
     @FXML
@@ -220,13 +243,13 @@ public class PantallaLibreriaController implements Initializable {
     private void ManejadorBotonEliminar(ActionEvent event) {
         Linea l = TablaLineasDelPrestamo.getSelectionModel().getSelectedItem();
         DtoResumen dto = new DtoResumen();
+        dto = facadeLibreria.eliminarLinea(l);
         if (dto.isAgregar()) {
-            facadeLibreria.eliminarLinea(l);
+
             textoCantiLineas.setText(Integer.toString(dto.getTama()));
             TextoTotalPrestamo.setText(Double.toString(dto.getTotal()));
             llenarCamposPrestamo();
-        }else
-        {
+        } else {
             JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 

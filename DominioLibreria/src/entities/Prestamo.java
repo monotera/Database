@@ -6,6 +6,7 @@
 package entities;
 
 import Const.contantes;
+import Enums.Denominacion;
 import java.lang.reflect.Array;
 import java.sql.Date;
 import java.time.LocalDateTime;
@@ -21,7 +22,7 @@ public class Prestamo {
     private int numero;
     private double total;
     private ArrayList<Linea> lineas = new ArrayList<>();
-    private ArrayList<Moneda> pagoMoedas = new ArrayList<>();
+    private ArrayList<Moneda> pagoMonedas = new ArrayList<>();
 
     public LocalDateTime getFecha() {
         return fecha;
@@ -55,19 +56,19 @@ public class Prestamo {
         this.lineas = lineas;
     }
 
-    public ArrayList<Moneda> getPagoMoedas() {
-        return pagoMoedas;
+    public ArrayList<Moneda> getPagoMonedas() {
+        return pagoMonedas;
     }
 
-    public void setPagoMoedas(ArrayList<Moneda> pagoMoedas) {
-        this.pagoMoedas = pagoMoedas;
+    public void setPagoMonedas(ArrayList<Moneda> pagoMonedas) {
+        this.pagoMonedas = pagoMonedas;
     }
 
     public Prestamo(LocalDateTime fecha, int numero, ArrayList<Linea> lineas, ArrayList<Moneda> pagoMoedas) {
         this.fecha = fecha;
         this.numero = numero;
         this.lineas = lineas;
-        this.pagoMoedas = pagoMoedas;
+        this.pagoMonedas = pagoMoedas;
     }
 
     public Prestamo() {
@@ -109,6 +110,21 @@ public class Prestamo {
         }
         dto.setAgregar(false);
         dto.setMensaje("No se pudo eliminar");
+        return dto;
+    }
+    public  DtoResumen agregarMoneda(Denominacion denomincion, int cantidad)
+    {
+        DtoResumen dto = new DtoResumen();
+        Moneda monedaNueva = new Moneda();
+        monedaNueva.setDenominacion(denomincion);
+        if(this.pagoMonedas.add(monedaNueva))
+        {
+            dto.setAgregar(true);
+            dto.setMensaje("Se pudo agregar la moneda");
+            return dto;
+        }
+        dto.setAgregar(false);
+        dto.setMensaje("No se pudo agregar la moneda");
         return dto;
     }
 
