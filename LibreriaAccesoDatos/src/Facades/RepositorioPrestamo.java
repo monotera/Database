@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 
@@ -39,7 +40,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
             conn.close();
             System.err.println("Commit ejecutado");
 
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
         }
@@ -60,7 +61,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
             pr.execute();
             conn.close();
             dto = true;
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
             dto = false;
@@ -88,7 +89,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
                 prestamos.add(p);
             }
             conn.close();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
 
@@ -119,7 +120,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
                     conn.close();
 
                 }
-            } catch (Exception ex) {
+            } catch (SQLException ex) {
                 System.out.println("Error de conexion:" + ex.toString());
                 ex.printStackTrace();
 
@@ -130,8 +131,6 @@ public class RepositorioPrestamo implements IGestionPrestamo {
 
     public Libro buscarLibro(String isn) {
         String SQl = "select * from BOOKS";
-        System.err.println("Sancando libros");
-
         ArrayList<Libro> libros = new ArrayList<>();
         try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
                 PreparedStatement ps = conn.prepareStatement(SQl);
@@ -151,7 +150,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
             }
 
             conn.close();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
 
@@ -172,7 +171,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
             pr.execute();
             conn.close();
             dto = (true);
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
             dto = (false);
@@ -184,7 +183,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
 
     @Override
     public boolean insertarLineas(Linea linea, int numeroPrestamo) {
-        String SQL = "INSERT INTO linea ( CANTIDAD, ISBLIBRO, NUMEROPRESTAMO) VALUES (?,?,?)";
+        String SQL = "INSERT INTO linea (CANTIDAD,ISBNLIBRO,NUMEROPRESTAMO) VALUES (?,?,?)";
         boolean dto;
         System.err.println("Insertadno lineas");
         try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
@@ -196,7 +195,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
             conn.close();
             dto = (true);
 
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
             dto = false;

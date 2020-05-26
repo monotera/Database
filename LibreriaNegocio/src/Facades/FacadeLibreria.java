@@ -202,14 +202,17 @@ public class FacadeLibreria implements IFacadeLibreria {
     public DtoResumen terminarPrestamo() {
         DtoResumen dto = new DtoResumen();
         dto = this.prestamoActual.terminarPrestamo();
+        double devuelta = dto.getDevuelta();
         if (dto.isAgregar()) {
             if (gestionPrestamo.PersistirPrestamo(prestamoActual)) {
+                this.prestamos.add(prestamoActual);
                dto = actualizarExistencias();
             } else {
                 dto.setAgregar(false);
                 dto.setMensaje("No se pude insertar el prestamo en la BD");
             }
         }
+        dto.setDevuelta(devuelta);
         return dto;
     }
 

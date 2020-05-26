@@ -19,6 +19,15 @@ public class DtoResumen {
     private double saldo;
     private double vueltos;
     private int tama = 0;
+    private  double  devuelta;
+
+    public double getDevuelta() {
+        return devuelta;
+    }
+
+    public void setDevuelta(double devuelta) {
+        this.devuelta = devuelta;
+    }
 
     public String getMensaje() {
         return mensaje;

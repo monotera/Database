@@ -12,6 +12,7 @@ import java.sql.DriverManager;
 import constants.constante;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 /**
  *
@@ -34,7 +35,7 @@ public class RepositorioLibro implements IGestionLibro{
             pr.setString(6, libro.getTitulo());
             pr.execute();
             conn.close();
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
 
@@ -61,7 +62,7 @@ public class RepositorioLibro implements IGestionLibro{
                 libros.add(l);
                 
             }
-        } catch (Exception ex) {
+        } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
 

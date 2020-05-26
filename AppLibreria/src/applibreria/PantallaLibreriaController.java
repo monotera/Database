@@ -184,10 +184,11 @@ public class PantallaLibreriaController implements Initializable {
 
     @FXML
     private void ManejadorBotonAgregarLinea(ActionEvent event) {
-        String titulo = ComboboxSeleccionLibros.getSelectionModel().getSelectedItem().toString();
+
         DtoResumen res = new DtoResumen();
         try {
-            if (!TextCant.getText().isEmpty()) {
+            String titulo = ComboboxSeleccionLibros.getSelectionModel().getSelectedItem().toString();
+            if (!TextCant.getText().isEmpty() && titulo != null) {
                 int catidad = Integer.parseInt(TextCant.getText());
                 for (Libro l : facadeLibreria.consultarLibros()) {
                     if (l.getTitulo() == titulo) {
@@ -199,14 +200,14 @@ public class PantallaLibreriaController implements Initializable {
             } else {
                 JOptionPane.showMessageDialog(null, "Cantidad incompleta", "Error", JOptionPane.ERROR_MESSAGE);
             }
+            if (!res.isAgregar()) {
+                JOptionPane.showMessageDialog(null, res.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Caracter invalido", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Caracter invalido y/o lirbro no seleccionado", "Error", JOptionPane.ERROR_MESSAGE);
         }
 
-        if (!res.isAgregar()) {
-            JOptionPane.showMessageDialog(null, res.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
-        }
         llenarCamposPrestamo();
         if (facadeLibreria.getPrestamoActual().getLineas().size() != 0) {
             BotonTerminarPrestamo.setDisable(false);
@@ -242,19 +243,18 @@ public class PantallaLibreriaController implements Initializable {
 
     @FXML
     private void ManejadorBotonTerminarPrestamo(ActionEvent event) {
-        DtoResumen dto =  facadeLibreria.terminarPrestamo();
-        if(dto.isAgregar())
-        {
-           reset();
-        }else
-        {
-           JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE); 
+        DtoResumen dto = facadeLibreria.terminarPrestamo();
+        if (dto.isAgregar()) {
+            resetAll();
+            JOptionPane.showMessageDialog(null, "Su devuelta es de " + dto.getDevuelta());
+        } else {
+            JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
     @FXML
     private void ManejadorBotonGenerarReporte(ActionEvent event) {
-        
+
     }
 
     @FXML
@@ -272,8 +272,8 @@ public class PantallaLibreriaController implements Initializable {
         }
 
     }
-    private  void resetAll()
-    {
+
+    private void resetAll() {
         textoExito.setText(" ");
         ComboboxDenominacion.setValue(null);
         TextCantMonedas.setText("0");
@@ -283,8 +283,10 @@ public class PantallaLibreriaController implements Initializable {
         textoCantiLineas.setText("0");
         TextoTotalPrestamo.setText("0.0");
         TablaLineasDelPrestamo.getItems().clear();
-        
+        TextoSaldoDispMonedas.setText("$0");
+
     }
+
     private void reset() {
         textoExito.setText(" ");
         ComboboxDenominacion.setValue(null);

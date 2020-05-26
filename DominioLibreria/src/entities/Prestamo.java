@@ -142,12 +142,14 @@ public class Prestamo {
         return saldo;
 
     }
+    
     public DtoResumen terminarPrestamo()
     {
         DtoResumen dto = new DtoResumen();
         if(verificarSaldo())
         {
             dto.setAgregar(true);
+            dto.setDevuelta(calcularDevuelta());
             dto.setMensaje("Se realizo el prestamo");
         }else
         {
@@ -159,6 +161,10 @@ public class Prestamo {
     private boolean verificarSaldo()
     {
         double saldo  = calcularSaldo();
-        return saldo >= total;
+        return saldo >= this.total;
+    }
+    private double calcularDevuelta()
+    {
+        return calcularSaldo() - this.total;
     }
 }
