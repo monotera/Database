@@ -21,6 +21,23 @@ import java.util.ArrayList;
  */
 public class RepositorioLibro implements IGestionLibro {
 
+    
+    private void commit() {
+        String SQl = "commit";
+
+        try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
+                PreparedStatement pr = conn.prepareStatement(SQl)) {
+
+            pr.execute();
+            conn.close();
+            System.err.println("Commit ejecutado");
+
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+
+    }
     @Override
     public void agregarLibro(Libro libro) {
         String SQl = "INSERT into books (isbn,precioBase,unidadesDisponibles,numeroImagenes,numeroVideos,Titulo) VALUES (?,?,?,?,?,?)";
@@ -41,6 +58,7 @@ public class RepositorioLibro implements IGestionLibro {
             ex.printStackTrace();
 
         }
+        commit();
     }
 
     @Override

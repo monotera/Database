@@ -155,6 +155,8 @@ public class PantallaLibreriaController implements Initializable {
     private void llenarCampos() {
         tablaAgregar.getItems().clear();
         comboBoxNumeroReserva.getItems().clear();
+        ComboboxSeleccionLibros.getItems().clear();
+        ComboboxDenominacion.getItems().clear();
         for (Libro l : facadeLibreria.consultarLibros()) {
             tablaAgregar.getItems().add(l);
             ComboboxSeleccionLibros.getItems().add(l.getTitulo());
