@@ -26,6 +26,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
@@ -111,6 +112,8 @@ public class PantallaLibreriaController implements Initializable {
     private ComboBox<Integer> comboBoxNumeroReserva;
     @FXML
     private Button botonConsultar;
+    @FXML
+    private TextArea cuadroCOonsultaReserva;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -260,7 +263,6 @@ public class PantallaLibreriaController implements Initializable {
         llenarCampos();
     }
 
-
     @FXML
     private void ManejadorBotonEliminar(ActionEvent event) {
         Linea l = TablaLineasDelPrestamo.getSelectionModel().getSelectedItem();
@@ -302,6 +304,20 @@ public class PantallaLibreriaController implements Initializable {
 
     @FXML
     private void manejadorBotonConsultar(ActionEvent event) {
-        
+
+        int numero = comboBoxNumeroReserva.getSelectionModel().getSelectedItem();
+        DtoResumen dto = new DtoResumen();
+        StringBuilder cadena = new StringBuilder();
+        cadena.append(cadena);
+        try {
+            dto = facadeLibreria.consultarPrestamo(numero);
+            if(dto.isAgregar())
+            {
+                cuadroCOonsultaReserva.setText(cadena.toString());
+            }
+        } catch (Exception e) {
+        }
+
     }
+
 }

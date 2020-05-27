@@ -16,7 +16,6 @@ import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.sql.Date;
@@ -204,5 +203,62 @@ public class RepositorioPrestamo implements IGestionPrestamo {
         return dto;
 
     }
+
+    @Override
+    public DtoResumen consultarPrestamo(int numero) {
+        String SQl = "SELECT fecha,total from prestamo WHERE numero = ?";
+        System.err.println("Consultando prestamo");
+        DtoResumen dto = new  DtoResumen();
+        try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
+                PreparedStatement ps = conn.prepareStatement(SQl);
+                ) {
+            ps.setInt(1, numero);
+            ResultSet rs = ps.executeQuery();
+            Prestamo p = new  Prestamo();
+            Date date = rs.getDate("FECHA");
+            Timestamp t = new Timestamp(date.getTime());
+            p.setFecha(t.toLocalDateTime());
+            p.setTotal(rs.getDouble("TOTAL"));
+            p.setNumero(numero);
+            p.setLineas(buscarLineasPorUnPrestamo(numero));
+            dto.setPrestamo(p);
+            dto.setAgregar(true);
+            conn.close();
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            dto.setAgregar(false);
+            dto.setMensaje("Error de conexion: "+ex.toString());
+            ex.printStackTrace();
+        }
+        return  dto;    
+    }
+    public ArrayList<Linea> buscarLineasPorUnPrestamo(int numero) {
+        String SQL2 = "select cantidad,ISBNlibro,NumeroPrestamo from linea, Prestamo where numeroprestamo = ?";
+        System.err.println("Buscando Lineas");
+            ArrayList<Linea> l = new ArrayList<>();
+            try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
+                    PreparedStatement ps = conn.prepareStatement(SQL2);) {
+                {
+                    ps.setInt(1, numero);
+
+                    ResultSet rs = ps.executeQuery();
+
+                    while (rs.next()) {
+                        Linea lin = new Linea();
+                        lin.setCantidad(rs.getInt("CANTIDAD"));
+                        lin.setLibroEnPrestamo(buscarLibro(rs.getString("ISBNlibro")));
+                        l.add(lin);
+                    }
+                    conn.close();
+
+                }
+            } catch (SQLException ex) {
+                System.out.println("Error de conexion:" + ex.toString());
+                ex.printStackTrace();
+
+            }
+        return l;
+    }
+    
 
 }

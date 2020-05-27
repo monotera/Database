@@ -242,4 +242,9 @@ public class FacadeLibreria implements IFacadeLibreria {
         return dto;
     }
 
+    @Override
+    public DtoResumen consultarPrestamo(int numero) {
+       return gestionPrestamo.consultarPrestamo(numero);
+    }
+
 }

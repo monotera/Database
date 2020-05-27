@@ -50,4 +50,6 @@ public interface IFacadeLibreria {
     DtoResumen agregarMoneda(Denominacion denominacion, int cantidad);
     
     DtoResumen terminarPrestamo();
+    
+    DtoResumen consultarPrestamo(int numero);
 }

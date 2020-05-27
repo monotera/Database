@@ -24,5 +24,6 @@ public interface IGestionPrestamo {
     boolean actualizarExistencias(Libro libro, int cantidad);
     
     boolean insertarLineas(Linea linea, int numeroPrestamo);
-
+    
+    DtoResumen consultarPrestamo(int numero);
 }

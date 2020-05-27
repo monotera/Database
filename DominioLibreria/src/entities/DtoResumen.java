@@ -14,12 +14,21 @@ import java.util.ArrayList;
 public class DtoResumen {
     private String mensaje;
     private ArrayList<Linea> coleccion = new ArrayList<>();
+    private Prestamo prestamo = new Prestamo();
     private boolean agregar;
     private double total;
     private double saldo;
     private double vueltos;
     private int tama = 0;
     private  double  devuelta;
+
+    public Prestamo getPrestamo() {
+        return prestamo;
+    }
+
+    public void setPrestamo(Prestamo prestamo) {
+        this.prestamo = prestamo;
+    }
 
     public double getDevuelta() {
         return devuelta;
