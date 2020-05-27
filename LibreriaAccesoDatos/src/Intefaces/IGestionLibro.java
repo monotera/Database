@@ -15,5 +15,6 @@ import java.util.ArrayList;
 public interface IGestionLibro {
     void agregarLibro(Libro libro);
     ArrayList<Libro> CargarLibros();
+    Libro buscarLibro(String Isbn);
     
 }

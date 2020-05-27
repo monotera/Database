@@ -26,4 +26,7 @@ public interface IGestionPrestamo {
     boolean insertarLineas(Linea linea, int numeroPrestamo);
     
     DtoResumen consultarPrestamo(int numero);
+    
+    ArrayList<Linea> buscarLineasPorUnPrestamo(int numero);
+    
 }

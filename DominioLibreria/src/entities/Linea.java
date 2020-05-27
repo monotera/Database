@@ -12,7 +12,7 @@ package entities;
 public class Linea {
 
     private int cantidad;
-    private Libro libroEnPrestamo;
+    private Libro libroEnPrestamo = new Libro();
     private double subTotal;
 
     public Libro getLibroEnPrestamo() {
@@ -57,5 +57,5 @@ public class Linea {
     public String toString() {
         return "Cantidad: " + this.cantidad + "\nLibro en Prestamo:" + this.libroEnPrestamo.toString();
     }
-
+    
 }

@@ -5,6 +5,7 @@
  */
 package Facades;
 
+import Const.contantes;
 import Enums.Denominacion;
 import Intefaces.IGestionLibro;
 import Intefaces.IGestionPrestamo;
@@ -29,7 +30,7 @@ public class FacadeLibreria implements IFacadeLibreria {
     private IGestionLibro gestionLibro = new RepositorioLibro();
     private IGestionPrestamo gestionPrestamo = new RepositorioPrestamo();
     private ArrayList<Prestamo> prestamos = new ArrayList<>();
-    private Prestamo prestamoActual;
+    private Prestamo prestamoActual = new Prestamo();
 
     public FacadeLibreria() {
         this.catalogo = gestionLibro.CargarLibros();
@@ -130,7 +131,9 @@ public class FacadeLibreria implements IFacadeLibreria {
         DtoResumen res = new DtoResumen();
         int bandera = cantiLibros(libro, cantidad);
         if (bandera == 1) {
-            res = prestamoActual.agregarLinea(libro, cantidad);
+            double subtotal = calcularSubTotal(libro, cantidad);
+            res = prestamoActual.agregarLinea(libro, cantidad, subtotal);
+
             res.setAgregar(true);
             return res;
         } else {
@@ -206,7 +209,7 @@ public class FacadeLibreria implements IFacadeLibreria {
         if (dto.isAgregar()) {
             if (gestionPrestamo.PersistirPrestamo(prestamoActual)) {
                 this.prestamos.add(prestamoActual);
-               dto = actualizarExistencias();
+                dto = actualizarExistencias();
             } else {
                 dto.setAgregar(false);
                 dto.setMensaje("No se pude insertar el prestamo en la BD");
@@ -244,7 +247,18 @@ public class FacadeLibreria implements IFacadeLibreria {
 
     @Override
     public DtoResumen consultarPrestamo(int numero) {
-       return gestionPrestamo.consultarPrestamo(numero);
+        DtoResumen dto = gestionPrestamo.consultarPrestamo(numero);
+        dto.getPrestamo().setLineas(gestionPrestamo.buscarLineasPorUnPrestamo(numero));
+        for (Linea l : dto.getPrestamo().getLineas()) {
+            l.setLibroEnPrestamo(gestionLibro.buscarLibro(l.getLibroEnPrestamo().getIsbn()));
+            double subTotal = calcularSubTotal(l.getLibroEnPrestamo(), l.getCantidad());
+            l.setSubTotal(subTotal);
+        }
+        return dto;
+    }
+
+    private double calcularSubTotal(Libro libro, int cantidad) {
+        return ((libro.getPrecioBase() + (libro.getNumeroImagenes() * contantes.VALOR_IMAGEN) + (libro.getNumeroVideos() * contantes.VALOR_VIDEO)) * cantidad);
     }
 
 }

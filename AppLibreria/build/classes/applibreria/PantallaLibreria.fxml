@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="504.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applibreria.PantallaLibreriaController">
+<AnchorPane id="AnchorPane" prefHeight="504.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="applibreria.PantallaLibreriaController">
     <children>
         <TabPane prefHeight="506.0" prefWidth="700.0" style="-fx-background-color: #FFFFF0;" tabClosingPolicy="UNAVAILABLE">
             <tabs>
@@ -88,7 +88,7 @@
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font></Text>
-                                <Button fx:id="BotonNuevoPrestamo" layoutX="216.0" layoutY="22.0" mnemonicParsing="false" onAction="#ManejadorBotonNuevoPrestamo" style="-fx-background-color: #FFFFF0;" text="Nuevo Prestamo" />
+                                <Button fx:id="BotonNuevoPrestamo" layoutX="216.0" layoutY="22.0" mnemonicParsing="false" onAction="#ManejadorBotonNuevoPrestamo" text="Nuevo Prestamo" />
                                 <Text fill="#ff2301" layoutX="29.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha y Hora Préstamo" wrappingWidth="173.13671875">
                            <font>
                               <Font name="System Bold" size="13.0" />
@@ -176,7 +176,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <TextArea layoutX="260.0" layoutY="67.0" prefHeight="355.0" prefWidth="349.0" />
+                        <TextArea fx:id="cuadroCOonsultaReserva" layoutX="260.0" layoutY="67.0" prefHeight="355.0" prefWidth="349.0" />
                         <ComboBox fx:id="comboBoxNumeroReserva" layoutX="186.0" layoutY="62.0" prefHeight="25.0" prefWidth="45.0" />
                         <Button fx:id="botonConsultar" layoutX="178.0" layoutY="145.0" mnemonicParsing="false" onAction="#manejadorBotonConsultar" text="Consultar" />
                         <Text layoutX="60.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero de reserva" />

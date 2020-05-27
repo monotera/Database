@@ -5,10 +5,9 @@
  */
 package entities;
 
-import Const.contantes;
+
 import Enums.Denominacion;
 import java.lang.reflect.Array;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -75,19 +74,18 @@ public class Prestamo {
         this.total = 0;
     }
 
-    public DtoResumen agregarLinea(Libro libro, int cantidad) {
+    public DtoResumen agregarLinea(Libro libro, int cantidad, double subT) {
         DtoResumen dto = new DtoResumen();
         Linea nuevaLienea = new Linea();
         nuevaLienea.setLibroEnPrestamo(libro);
         nuevaLienea.setCantidad(cantidad);
-        nuevaLienea.setSubTotal((libro.getPrecioBase() + (libro.getNumeroImagenes() * contantes.VALOR_IMAGEN) + (libro.getNumeroVideos() * contantes.VALOR_VIDEO)) * cantidad);//se da el subtotal
+        nuevaLienea.setSubTotal(subT);//se da el subtotal
         this.lineas.add(nuevaLienea);
         calcularTotal();
         dto.setTotal(this.total);
         dto.setTama(lineas.size());
         return dto;
     }
-
     private void calcularTotal() {
         double tot = 0;
         for (Linea l : lineas) {

@@ -154,7 +154,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
             ex.printStackTrace();
 
         }
-       
+
         return null;
     }
 
@@ -208,57 +208,57 @@ public class RepositorioPrestamo implements IGestionPrestamo {
     public DtoResumen consultarPrestamo(int numero) {
         String SQl = "SELECT fecha,total from prestamo WHERE numero = ?";
         System.err.println("Consultando prestamo");
-        DtoResumen dto = new  DtoResumen();
+        DtoResumen dto = new DtoResumen();
         try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
-                PreparedStatement ps = conn.prepareStatement(SQl);
-                ) {
+                PreparedStatement ps = conn.prepareStatement(SQl);) {
             ps.setInt(1, numero);
             ResultSet rs = ps.executeQuery();
-            Prestamo p = new  Prestamo();
-            Date date = rs.getDate("FECHA");
-            Timestamp t = new Timestamp(date.getTime());
-            p.setFecha(t.toLocalDateTime());
-            p.setTotal(rs.getDouble("TOTAL"));
-            p.setNumero(numero);
-            p.setLineas(buscarLineasPorUnPrestamo(numero));
-            dto.setPrestamo(p);
-            dto.setAgregar(true);
+            while (rs.next()) {
+                Prestamo p = new Prestamo();
+                Date date = rs.getDate("FECHA");
+                Timestamp t = new Timestamp(date.getTime());
+                p.setFecha(t.toLocalDateTime());
+                p.setTotal(rs.getDouble("TOTAL"));
+                p.setNumero(numero);
+                dto.setPrestamo(p);
+                dto.setAgregar(true);
+            }
             conn.close();
         } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
             dto.setAgregar(false);
-            dto.setMensaje("Error de conexion: "+ex.toString());
+            dto.setMensaje("Error de conexion: " + ex.toString());
             ex.printStackTrace();
         }
-        return  dto;    
+        return dto;
     }
+    @Override
     public ArrayList<Linea> buscarLineasPorUnPrestamo(int numero) {
-        String SQL2 = "select cantidad,ISBNlibro,NumeroPrestamo from linea, Prestamo where numeroprestamo = ?";
+        String SQL2 = "select cantidad,ISBNlibro,NumeroPrestamo from linea, Prestamo where numeroprestamo = ? AND numero = ?";
         System.err.println("Buscando Lineas");
-            ArrayList<Linea> l = new ArrayList<>();
-            try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
-                    PreparedStatement ps = conn.prepareStatement(SQL2);) {
-                {
-                    ps.setInt(1, numero);
+        ArrayList<Linea> l = new ArrayList<>();
+        try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
+                PreparedStatement ps = conn.prepareStatement(SQL2);) {
+            {
+                ps.setInt(1, numero);
+                ps.setInt(2, numero);
+                ResultSet rs = ps.executeQuery();
 
-                    ResultSet rs = ps.executeQuery();
-
-                    while (rs.next()) {
-                        Linea lin = new Linea();
-                        lin.setCantidad(rs.getInt("CANTIDAD"));
-                        lin.setLibroEnPrestamo(buscarLibro(rs.getString("ISBNlibro")));
-                        l.add(lin);
-                    }
-                    conn.close();
-
+                while (rs.next()) {
+                    Linea lin = new Linea();
+                    lin.setCantidad(rs.getInt("CANTIDAD"));
+                    lin.getLibroEnPrestamo().setIsbn(rs.getString("ISBNlibro"));
+                    l.add(lin);
                 }
-            } catch (SQLException ex) {
-                System.out.println("Error de conexion:" + ex.toString());
-                ex.printStackTrace();
+                conn.close();
 
             }
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+
+        }
         return l;
     }
-    
 
 }

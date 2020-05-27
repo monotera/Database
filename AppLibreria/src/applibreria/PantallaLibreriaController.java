@@ -154,7 +154,7 @@ public class PantallaLibreriaController implements Initializable {
 
     private void llenarCampos() {
         tablaAgregar.getItems().clear();
-
+        comboBoxNumeroReserva.getItems().clear();
         for (Libro l : facadeLibreria.consultarLibros()) {
             tablaAgregar.getItems().add(l);
             ComboboxSeleccionLibros.getItems().add(l.getTitulo());
@@ -169,7 +169,6 @@ public class PantallaLibreriaController implements Initializable {
     private void ManejadorBotonNuevoPrestamo(ActionEvent event) {
         BotonAgregarLinea.setDisable(false);
         BotonAgregarMonedas.setDisable(false);
-        BotonGenerarReporte.setDisable(false);
         botonEliminar.setDisable(false);
         if (facadeLibreria.crearNuevoPrestamo()) {
             TextoLocalDate.setText(facadeLibreria.getPrestamoActual().getFecha().toString());
@@ -232,7 +231,6 @@ public class PantallaLibreriaController implements Initializable {
         DtoResumen dto = new DtoResumen();
         try {
             cantidad = Integer.parseInt(TextCantMonedas.getText());
-            System.err.println(cantidad);
             dto = facadeLibreria.agregarMoneda(d, cantidad);
             if (!dto.isAgregar()) {
                 JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -242,13 +240,14 @@ public class PantallaLibreriaController implements Initializable {
                 textoExito.setFill(Paint.valueOf("#00b524"));
                 textoExito.setText("Exito");
             }
+            TextoSaldoDispMonedas.setText("$" + Double.toString(dto.getSaldo()));
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Solo se aceptan enteros", "Error", JOptionPane.ERROR_MESSAGE);
             textoExito.setFill(Paint.valueOf("#c10909"));
             textoExito.setText("Error");
         }
-        TextoSaldoDispMonedas.setText("$" + Double.toString(dto.getSaldo()));
+        
     }
 
     @FXML
@@ -307,15 +306,28 @@ public class PantallaLibreriaController implements Initializable {
 
         int numero = comboBoxNumeroReserva.getSelectionModel().getSelectedItem();
         DtoResumen dto = new DtoResumen();
-        StringBuilder cadena = new StringBuilder();
-        cadena.append(cadena);
+        StringBuilder cadena = new StringBuilder("");
         try {
             dto = facadeLibreria.consultarPrestamo(numero);
-            if(dto.isAgregar())
-            {
+            if (dto.isAgregar()) {
+                int contador = 1;
+                cadena.append("Prestamo: " + dto.getPrestamo().getNumero() + "\n");
+                cadena.append("Fecha: " + dto.getPrestamo().getFecha().toString() + "\n");
+                cadena.append("Total: " + dto.getPrestamo().getTotal() + "\n");
+                cadena.append("Lineas: \n");
+                for (Linea l : dto.getPrestamo().getLineas()) {
+                    cadena.append("Linea: " + contador + "\n");
+                    cadena.append("Libro: " + l.getLibroEnPrestamo().getTitulo().toString() + "\n");
+                    cadena.append("Cantidad: " + l.getCantidad() + "\n");
+                    cadena.append("SubTotal: " + l.getSubTotal() + "\n");
+                    contador++;
+                }
                 cuadroCOonsultaReserva.setText(cadena.toString());
+            } else {
+                JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
             }
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }
