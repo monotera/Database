@@ -11,6 +11,7 @@ import Interfaces.IFacadeLibreria;
 import entities.Libro;
 import entities.Linea;
 import entities.DtoResumen;
+import entities.Prestamo;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -99,7 +100,6 @@ public class PantallaLibreriaController implements Initializable {
     private Text TextoVueltos;
     @FXML
     private Button BotonTerminarPrestamo;
-    @FXML
     private Button BotonGenerarReporte;
     @FXML
     private Button botonEliminar;
@@ -107,6 +107,10 @@ public class PantallaLibreriaController implements Initializable {
     private Text textoCantiLineas;
     @FXML
     private Text textoExito;
+    @FXML
+    private ComboBox<Integer> comboBoxNumeroReserva;
+    @FXML
+    private Button botonConsultar;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -153,6 +157,9 @@ public class PantallaLibreriaController implements Initializable {
             ComboboxSeleccionLibros.getItems().add(l.getTitulo());
         }
         ComboboxDenominacion.getItems().addAll(Denominacion.MIL, Denominacion.QUIENTOS);
+        for (Prestamo p : facadeLibreria.getPrestamos()) {
+            comboBoxNumeroReserva.getItems().add(p.getNumero());
+        }
     }
 
     @FXML
@@ -250,12 +257,9 @@ public class PantallaLibreriaController implements Initializable {
         } else {
             JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+        llenarCampos();
     }
 
-    @FXML
-    private void ManejadorBotonGenerarReporte(ActionEvent event) {
-
-    }
 
     @FXML
     private void ManejadorBotonEliminar(ActionEvent event) {
@@ -294,5 +298,10 @@ public class PantallaLibreriaController implements Initializable {
         ComboboxSeleccionLibros.setValue(null);
         TextCant.setText(null);
 
+    }
+
+    @FXML
+    private void manejadorBotonConsultar(ActionEvent event) {
+        
     }
 }

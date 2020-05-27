@@ -6,6 +6,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.cell.PropertyValueFactory?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -87,7 +88,7 @@
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font></Text>
-                                <Button fx:id="BotonNuevoPrestamo" layoutX="216.0" layoutY="22.0" mnemonicParsing="false" onAction="#ManejadorBotonNuevoPrestamo" style="-fx-background-color: #FFFFF0;" text="Nuevo Prestamo" />
+                                <Button fx:id="BotonNuevoPrestamo" layoutX="216.0" layoutY="22.0" mnemonicParsing="false" onAction="#ManejadorBotonNuevoPrestamo" style="-fx-background-color: #ff2301; -fx-border-color: #000000;" text="Nuevo Prestamo" textFill="WHITE" />
                                 <Text fill="#ff2301" layoutX="29.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Fecha y Hora Préstamo" wrappingWidth="173.13671875">
                            <font>
                               <Font name="System Bold" size="13.0" />
@@ -163,15 +164,27 @@
                               <Font name="System Bold" size="13.0" />
                            </font></Text>
                                 <Text fx:id="TextoVueltos" layoutX="100.0" layoutY="419.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="69.0" />
-                                <Button fx:id="BotonTerminarPrestamo" disable="true" layoutX="250.0" layoutY="409.0" mnemonicParsing="false" onAction="#ManejadorBotonTerminarPrestamo" style="-fx-background-color: #FFFFF0;" text="Terminar Prestamo" />
-                                <Button fx:id="BotonGenerarReporte" layoutX="407.0" layoutY="409.0" mnemonicParsing="false" onAction="#ManejadorBotonGenerarReporte" style="-fx-background-color: #FFFFF0;" text="Generar Reporte" />
-                                <Button fx:id="botonEliminar" disable="true" layoutX="553.0" layoutY="409.0" mnemonicParsing="false" onAction="#ManejadorBotonEliminar" prefHeight="24.0" prefWidth="90.0" style="-fx-background-color: #FFFFF0;" text="Eliminar" />
+                                <Button fx:id="BotonTerminarPrestamo" disable="true" layoutX="413.0" layoutY="409.0" mnemonicParsing="false" onAction="#ManejadorBotonTerminarPrestamo" style="-fx-background-color: #FFFFF0;" text="Terminar Prestamo" />
+                                <Button fx:id="botonEliminar" disable="true" layoutX="571.0" layoutY="409.0" mnemonicParsing="false" onAction="#ManejadorBotonEliminar" prefHeight="24.0" prefWidth="90.0" style="-fx-background-color: #FFFFF0;" text="Eliminar" />
                                 <Text fx:id="textoCantiLineas" fill="WHITE" layoutX="156.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="120.42245483398438" />
                         <Text fx:id="textoExito" layoutX="512.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="29.5999755859375" />
                             </children>
                         </AnchorPane>
                     </content>
                 </Tab>
+            <Tab text="Consultar">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TextArea layoutX="260.0" layoutY="67.0" prefHeight="355.0" prefWidth="349.0" />
+                        <ComboBox fx:id="comboBoxNumeroReserva" layoutX="186.0" layoutY="62.0" prefHeight="25.0" prefWidth="45.0" />
+                        <Button fx:id="botonConsultar" layoutX="178.0" layoutY="145.0" mnemonicParsing="false" onAction="#manejadorBotonConsultar" text="Consultar" />
+                        <Text layoutX="60.0" layoutY="79.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Numero de reserva" />
+                        <Text layoutX="260.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Resultado de consulta" wrappingWidth="138.53668212890625" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
             </tabs>
         </TabPane>
     </children>
