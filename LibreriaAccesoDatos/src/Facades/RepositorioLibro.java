@@ -87,7 +87,6 @@ public class RepositorioLibro implements IGestionLibro {
                 l.setTitulo(rs.getString("TITULO"));
                 l.setNumeroVideos(rs.getInt("NUMEROIMAGENES"));
                 l.setUnidadDisponibles(rs.getInt("UNIDADESDISPONIBLES"));
-
             }
         } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
