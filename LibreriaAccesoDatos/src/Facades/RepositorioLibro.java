@@ -56,7 +56,6 @@ public class RepositorioLibro implements IGestionLibro {
         } catch (SQLException ex) {
             System.out.println("Error de conexion:" + ex.toString());
             ex.printStackTrace();
-
         }
         commit();
     }

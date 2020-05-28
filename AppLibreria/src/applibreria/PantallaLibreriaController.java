@@ -156,7 +156,7 @@ public class PantallaLibreriaController implements Initializable {
         tablaAgregar.getItems().clear();
         comboBoxNumeroReserva.getItems().clear();
         ComboboxSeleccionLibros.getItems().clear();
-        ComboboxDenominacion.getItems().clear();
+        ComboboxDenominacion.getItems().clear(); 
         for (Libro l : facadeLibreria.consultarLibros()) {
             tablaAgregar.getItems().add(l);
             ComboboxSeleccionLibros.getItems().add(l.getTitulo());
@@ -324,6 +324,8 @@ public class PantallaLibreriaController implements Initializable {
                     cadena.append("SubTotal: " + l.getSubTotal() + "\n");
                     contador++;
                 }
+                cadena.append("Monedas de mil ingresadas: " + dto.getCantiMil() + "\n");
+                cadena.append("Monedas de quinientos ingresadas: " + dto.getCantiQuini()+ "\n");
                 cuadroCOonsultaReserva.setText(cadena.toString());
             } else {
                 JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);

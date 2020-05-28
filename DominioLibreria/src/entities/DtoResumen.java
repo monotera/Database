@@ -19,8 +19,26 @@ public class DtoResumen {
     private double total;
     private double saldo;
     private double vueltos;
+
+    public int getCantiMil() {
+        return cantiMil;
+    }
+
+    public void setCantiMil(int cantiMil) {
+        this.cantiMil = cantiMil;
+    }
+
+    public int getCantiQuini() {
+        return cantiQuini;
+    }
+
+    public void setCantiQuini(int cantiQuini) {
+        this.cantiQuini = cantiQuini;
+    }
     private int tama = 0;
     private  double  devuelta;
+    private int cantiMil = 0;
+    private int cantiQuini = 0;
 
     public Prestamo getPrestamo() {
         return prestamo;

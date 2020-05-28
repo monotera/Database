@@ -5,6 +5,7 @@
  */
 package Intefaces;
 
+import Enums.Denominacion;
 import entities.DtoResumen;
 import entities.Libro;
 import entities.Linea;
@@ -22,11 +23,17 @@ public interface IGestionPrestamo {
     ArrayList<Prestamo> cargarPrestamos();
 
     boolean actualizarExistencias(Libro libro, int cantidad);
-    
+
     boolean insertarLineas(Linea linea, int numeroPrestamo);
-    
+
     DtoResumen consultarPrestamo(int numero);
-    
+
     ArrayList<Linea> buscarLineasPorUnPrestamo(int numero);
+
+    boolean persistirMonedas(Denominacion denominaciion, int cantidad, int id);
     
+    int buscarMonedas (Denominacion denominacion, int id );
+
+    void commit();
+
 }

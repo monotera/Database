@@ -5,6 +5,7 @@
  */
 package Facades;
 
+import Enums.Denominacion;
 import Intefaces.IGestionPrestamo;
 import constants.constante;
 import entities.DtoResumen;
@@ -29,7 +30,8 @@ import java.time.LocalDate;
  */
 public class RepositorioPrestamo implements IGestionPrestamo {
 
-    private void commit() {
+    @Override
+    public void commit() {
         String SQl = "commit";
 
         try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
@@ -65,7 +67,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
             ex.printStackTrace();
             dto = false;
         }
-        commit();
+        
         return dto;
     }
 
@@ -199,7 +201,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
             ex.printStackTrace();
             dto = false;
         }
-        commit();
+        
         return dto;
 
     }
@@ -232,6 +234,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
         }
         return dto;
     }
+
     @Override
     public ArrayList<Linea> buscarLineasPorUnPrestamo(int numero) {
         String SQL2 = "select cantidad,ISBNlibro,NumeroPrestamo from linea, Prestamo where numeroprestamo = ? AND numero = ?";
@@ -259,6 +262,61 @@ public class RepositorioPrestamo implements IGestionPrestamo {
 
         }
         return l;
+    }
+
+    @Override
+    public boolean persistirMonedas(Denominacion denominaciion, int cantidad, int id) {
+        String SQL = "INSERT into monedaxPrestamo (idMoneda,idPrestamo,cantidad) values (?,?,?)";
+        boolean dto;
+        System.err.println("Insertando MonedasxPrestamo");
+        try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
+                PreparedStatement pr = conn.prepareStatement(SQL)) {
+            if (denominaciion == Denominacion.MIL) {
+                pr.setInt(1, 1);
+            }
+            if (denominaciion == Denominacion.QUIENTOS) {
+                pr.setInt(1, 2);
+            }
+            pr.setInt(2, id);
+            pr.setInt(3, cantidad);
+            pr.execute();
+            conn.close();
+            dto = (true);
+
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+            dto = false;
+        }
+        
+        return dto;
+    }
+
+    @Override
+    public int buscarMonedas(Denominacion denominacion, int id) {
+        String SQl = "SELECT cantidad FROM monedaxPrestamo WHERE idMoneda = ? and idPrestamo = ?";
+        System.err.println("Consultando prestamo");
+        int cantidad = 0;
+        try (Connection conn = DriverManager.getConnection(constante.THINCONN, constante.USERNAME, constante.PASSWORD);
+                PreparedStatement ps = conn.prepareStatement(SQl);) {
+             if (denominacion == Denominacion.MIL) {
+                ps.setInt(1, 1);
+            }
+            if (denominacion == Denominacion.QUIENTOS) {
+                ps.setInt(1, 2);
+            }
+             ps.setInt(2, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                cantidad = rs.getInt("cantidad");
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            System.out.println("Error de conexion:" + ex.toString());
+            ex.printStackTrace();
+        }
+        return cantidad;
+        
     }
 
 }

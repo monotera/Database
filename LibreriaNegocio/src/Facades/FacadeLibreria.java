@@ -210,10 +210,32 @@ public class FacadeLibreria implements IFacadeLibreria {
             if (gestionPrestamo.PersistirPrestamo(prestamoActual)) {
                 this.prestamos.add(prestamoActual);
                 dto = actualizarExistencias();
+                int contMil = 0, contQui = 0 ;
+                ArrayList<Moneda> listaM = prestamoActual.getPagoMonedas();
+                
+                for (Moneda m : listaM) {
+                   
+                    if(m.getDenominacion() ==Denominacion.MIL)
+                        contMil ++;
+                    if(m.getDenominacion() == Denominacion.QUIENTOS)
+                        contQui++;
+                }
+               if( !gestionPrestamo.persistirMonedas(Denominacion.QUIENTOS, contQui, prestamoActual.getNumero()))
+               {
+                   dto.setAgregar(false);
+                   dto.setMensaje("No se pudo persistir monedas de quinientos");
+               }
+               if(!gestionPrestamo.persistirMonedas(Denominacion.MIL, contMil, prestamoActual.getNumero()))
+               {
+                   dto.setAgregar(false);
+                   dto.setMensaje("No se pudo persistir monedas de quinientos");
+               }
+               gestionPrestamo.commit();
             } else {
                 dto.setAgregar(false);
                 dto.setMensaje("No se pude insertar el prestamo en la BD");
             }
+            
         }
         dto.setDevuelta(devuelta);
         return dto;
@@ -254,6 +276,8 @@ public class FacadeLibreria implements IFacadeLibreria {
             double subTotal = calcularSubTotal(l.getLibroEnPrestamo(), l.getCantidad());
             l.setSubTotal(subTotal);
         }
+        dto.setCantiQuini(gestionPrestamo.buscarMonedas(Denominacion.QUIENTOS, numero));
+        dto.setCantiMil(gestionPrestamo.buscarMonedas(Denominacion.MIL, numero));
         return dto;
     }
 

@@ -13,8 +13,11 @@ import java.util.ArrayList;
  * @author USER
  */
 public interface IGestionLibro {
+
     void agregarLibro(Libro libro);
+
     ArrayList<Libro> CargarLibros();
+
     Libro buscarLibro(String Isbn);
-    
+
 }

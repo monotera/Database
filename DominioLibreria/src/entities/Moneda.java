@@ -44,6 +44,6 @@ public class Moneda {
     }
     @Override
     public String toString(){
-      return "Denominacion :"+this.denominacion;
+      return this.denominacion.toString();
     }
 }
