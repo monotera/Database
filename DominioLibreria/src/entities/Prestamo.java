@@ -86,6 +86,16 @@ public class Prestamo {
         dto.setTama(lineas.size());
         return dto;
     }
+    public DtoResumen actualizarCanti(int cantidad, double subT, int i) {
+        DtoResumen dto = new DtoResumen();
+        Linea nuevaLienea = lineas.get(i);
+        nuevaLienea.setCantidad(cantidad);
+        nuevaLienea.setSubTotal(subT);
+        calcularTotal();
+        dto.setTotal(this.total);
+        dto.setTama(lineas.size());
+        return dto;
+    }
 
     private void calcularTotal() {
         double tot = 0;

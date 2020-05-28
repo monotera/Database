@@ -131,9 +131,15 @@ public class FacadeLibreria implements IFacadeLibreria {
         DtoResumen res = new DtoResumen();
         int bandera = cantiLibros(libro, cantidad);
         if (bandera == 1) {
-            double subtotal = calcularSubTotal(libro, cantidad);
-            res = prestamoActual.agregarLinea(libro, cantidad, subtotal);
-
+            int index = buscarLienea(libro);
+            if (index == -1) {
+                double subtotal = calcularSubTotal(libro, cantidad);
+                res = prestamoActual.agregarLinea(libro, cantidad, subtotal);
+            } else {
+                int canti = cantidad + prestamoActual.getLineas().get(index).getCantidad();
+                double subtotal = calcularSubTotal(libro, canti);
+                res = prestamoActual.actualizarCanti(canti, subtotal,index);
+            }
             res.setAgregar(true);
             return res;
         } else {
@@ -145,6 +151,17 @@ public class FacadeLibreria implements IFacadeLibreria {
             }
         }
         return res;
+    }
+
+    private int buscarLienea(Libro l) {
+        int contador = 0;
+        for (Linea li : prestamoActual.getLineas()) {
+            if (li.getLibroEnPrestamo().getIsbn() == l.getIsbn()) {
+                return contador;
+            }
+            contador++;
+        }
+        return -1;
     }
 
     private int existeLibro(Libro libro) {
@@ -210,32 +227,32 @@ public class FacadeLibreria implements IFacadeLibreria {
             if (gestionPrestamo.PersistirPrestamo(prestamoActual)) {
                 this.prestamos.add(prestamoActual);
                 dto = actualizarExistencias();
-                int contMil = 0, contQui = 0 ;
+                int contMil = 0, contQui = 0;
                 ArrayList<Moneda> listaM = prestamoActual.getPagoMonedas();
-                
+
                 for (Moneda m : listaM) {
-                   
-                    if(m.getDenominacion() ==Denominacion.MIL)
-                        contMil ++;
-                    if(m.getDenominacion() == Denominacion.QUIENTOS)
+
+                    if (m.getDenominacion() == Denominacion.MIL) {
+                        contMil++;
+                    }
+                    if (m.getDenominacion() == Denominacion.QUIENTOS) {
                         contQui++;
+                    }
                 }
-               if( !gestionPrestamo.persistirMonedas(Denominacion.QUIENTOS, contQui, prestamoActual.getNumero()))
-               {
-                   dto.setAgregar(false);
-                   dto.setMensaje("No se pudo persistir monedas de quinientos");
-               }
-               if(!gestionPrestamo.persistirMonedas(Denominacion.MIL, contMil, prestamoActual.getNumero()))
-               {
-                   dto.setAgregar(false);
-                   dto.setMensaje("No se pudo persistir monedas de quinientos");
-               }
-               gestionPrestamo.commit();
+                if (!gestionPrestamo.persistirMonedas(Denominacion.QUIENTOS, contQui, prestamoActual.getNumero())) {
+                    dto.setAgregar(false);
+                    dto.setMensaje("No se pudo persistir monedas de quinientos");
+                }
+                if (!gestionPrestamo.persistirMonedas(Denominacion.MIL, contMil, prestamoActual.getNumero())) {
+                    dto.setAgregar(false);
+                    dto.setMensaje("No se pudo persistir monedas de quinientos");
+                }
+                gestionPrestamo.commit();
             } else {
                 dto.setAgregar(false);
                 dto.setMensaje("No se pude insertar el prestamo en la BD");
             }
-            
+
         }
         dto.setDevuelta(devuelta);
         return dto;
