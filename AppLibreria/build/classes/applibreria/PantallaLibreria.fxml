@@ -25,7 +25,7 @@
                             <children>
                         <ImageView fx:id="LogoAgregar" fitHeight="70.0" fitWidth="69.0" layoutX="600.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../pngflow.com.png" />
+                              <Image url="@./logo.png" />
                            </image>
                         </ImageView>
                                 <TextField fx:id="txtTitulo" alignment="CENTER_RIGHT" layoutX="165.0" layoutY="50.0" promptText="XXXX" style="-fx-background-color: #FFFFF0;" />
@@ -209,9 +209,9 @@
                            <font>
                               <Font name="System Bold" size="28.0" />
                            </font></Text>
-                        <ImageView fitHeight="100.0" fitWidth="94.0" layoutX="48.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fx:id="LogoAgregar3" fitHeight="100.0" fitWidth="94.0" layoutX="48.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@../../../pngflow.com.png" />
+                              <Image url="@./logo.png" />
                            </image>
                         </ImageView>
                      </children>

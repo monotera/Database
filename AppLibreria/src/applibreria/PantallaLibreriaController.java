@@ -12,7 +12,11 @@ import entities.Libro;
 import entities.Linea;
 import entities.DtoResumen;
 import entities.Prestamo;
+import java.io.FileInputStream;
+import java.io.FilterInputStream;
+
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -24,10 +28,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.SingleSelectionModel;
+import javafx.scene.control.Tab;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Text;
@@ -38,7 +45,6 @@ import javax.swing.JOptionPane;
  * @author USER
  */
 public class PantallaLibreriaController implements Initializable {
-
     IFacadeLibreria facadeLibreria = new FacadeLibreria();
     private final ObservableList<Libro> ListaLibrosObservable = FXCollections.observableArrayList();
     @FXML
@@ -114,6 +120,12 @@ public class PantallaLibreriaController implements Initializable {
     private Button botonConsultar;
     @FXML
     private TextArea cuadroCOonsultaReserva;
+    @FXML
+    private ImageView LogoAgregar;
+    @FXML
+    private Tab LogoConsulta;
+    @FXML
+    private ImageView LogoAgregar3;
 
     @FXML
     private void handleButtonAction(ActionEvent event) {
@@ -149,6 +161,7 @@ public class PantallaLibreriaController implements Initializable {
         //facadeLibreria.cargarLibros();
         llenarCampos();
         resetAll();
+         
 
     }
 
@@ -156,7 +169,7 @@ public class PantallaLibreriaController implements Initializable {
         tablaAgregar.getItems().clear();
         comboBoxNumeroReserva.getItems().clear();
         ComboboxSeleccionLibros.getItems().clear();
-        ComboboxDenominacion.getItems().clear(); 
+        ComboboxDenominacion.getItems().clear();
         for (Libro l : facadeLibreria.consultarLibros()) {
             tablaAgregar.getItems().add(l);
             ComboboxSeleccionLibros.getItems().add(l.getTitulo());
@@ -240,28 +253,38 @@ public class PantallaLibreriaController implements Initializable {
                 textoExito.setText("Error");
             } else {
                 textoExito.setFill(Paint.valueOf("#00b524"));
-                textoExito.setText("Exito");
+                textoExito.setText("Exito");  
+                TextoSaldoDispMonedas.setText("$" + Double.toString(dto.getSaldo()));
             }
-            TextoSaldoDispMonedas.setText("$" + Double.toString(dto.getSaldo()));
-
+          
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Solo se aceptan enteros", "Error", JOptionPane.ERROR_MESSAGE);
             textoExito.setFill(Paint.valueOf("#c10909"));
             textoExito.setText("Error");
         }
-        
+
     }
 
     @FXML
     private void ManejadorBotonTerminarPrestamo(ActionEvent event) {
-        DtoResumen dto = facadeLibreria.terminarPrestamo();
-        if (dto.isAgregar()) {
-            resetAll();
-            JOptionPane.showMessageDialog(null, "Su devuelta es de " + dto.getDevuelta());
-        } else {
-            JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
+        int tama = TablaLineasDelPrestamo.getItems().size();
+        if (tama > 0) {
+            DtoResumen dto = facadeLibreria.terminarPrestamo();
+            if (dto.isAgregar()) {
+                resetAll();
+                BotonAgregarLinea.setDisable(true);
+                BotonAgregarMonedas.setDisable(true);
+                BotonTerminarPrestamo.setDisable(true);
+                botonEliminar.setDisable(true);
+                JOptionPane.showMessageDialog(null, "Su devuelta es de " + dto.getDevuelta());
+            } else {
+                JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            llenarCampos();
         }
-        llenarCampos();
+        else{
+            JOptionPane.showMessageDialog(null, "No hay lineas en el nuevo prestamo", "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     @FXML
@@ -274,6 +297,10 @@ public class PantallaLibreriaController implements Initializable {
             textoCantiLineas.setText(Integer.toString(dto.getTama()));
             TextoTotalPrestamo.setText(Double.toString(dto.getTotal()));
             llenarCamposPrestamo();
+            int tama = TablaLineasDelPrestamo.getItems().size();
+            if(tama == 0){
+                BotonTerminarPrestamo.setDisable(true);
+            }
         } else {
             JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -283,7 +310,7 @@ public class PantallaLibreriaController implements Initializable {
     private void resetAll() {
         textoExito.setText(" ");
         ComboboxDenominacion.setValue(null);
-        TextCantMonedas.setText("0");
+        TextCantMonedas.setText(null);
         ComboboxSeleccionLibros.setValue(null);
         TextCant.setText(null);
         TextoLocalDate.setText("2020-XX-XXTXX:XX:XX.XXX");
@@ -296,11 +323,10 @@ public class PantallaLibreriaController implements Initializable {
 
     private void reset() {
         textoExito.setText(" ");
-        ComboboxDenominacion.setValue(null);
-        TextCantMonedas.setText("0");
+        //ComboboxDenominacion.setValue(null);
+        TextCantMonedas.setText(null);
         ComboboxSeleccionLibros.setValue(null);
         TextCant.setText(null);
-
     }
 
     @FXML
@@ -314,7 +340,8 @@ public class PantallaLibreriaController implements Initializable {
             if (dto.isAgregar()) {
                 int contador = 1;
                 cadena.append("Prestamo: " + dto.getPrestamo().getNumero() + "\n");
-                cadena.append("Fecha: " + dto.getPrestamo().getFecha().toString() + "\n");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                cadena.append("Fecha: " + dto.getPrestamo().getFecha().format(formatter).toString() + "\n");
                 cadena.append("Total: " + dto.getPrestamo().getTotal() + "\n");
                 cadena.append("Lineas: \n");
                 for (Linea l : dto.getPrestamo().getLineas()) {
@@ -325,7 +352,7 @@ public class PantallaLibreriaController implements Initializable {
                     contador++;
                 }
                 cadena.append("Monedas de mil ingresadas: " + dto.getCantiMil() + "\n");
-                cadena.append("Monedas de quinientos ingresadas: " + dto.getCantiQuini()+ "\n");
+                cadena.append("Monedas de quinientos ingresadas: " + dto.getCantiQuini() + "\n");
                 cuadroCOonsultaReserva.setText(cadena.toString());
             } else {
                 JOptionPane.showMessageDialog(null, dto.getMensaje(), "Error", JOptionPane.ERROR_MESSAGE);

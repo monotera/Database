@@ -5,10 +5,10 @@
  */
 package entities;
 
-
 import Enums.Denominacion;
 import java.lang.reflect.Array;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 /**
@@ -86,6 +86,7 @@ public class Prestamo {
         dto.setTama(lineas.size());
         return dto;
     }
+
     private void calcularTotal() {
         double tot = 0;
         for (Linea l : lineas) {
@@ -121,7 +122,6 @@ public class Prestamo {
                 dto.setAgregar(true);
                 dto.setMensaje("Se pudo agregar la moneda");
 
-                
             } else {
                 dto.setAgregar(false);
                 dto.setMensaje("No se pudo agregar la moneda");
@@ -140,29 +140,26 @@ public class Prestamo {
         return saldo;
 
     }
-    
-    public DtoResumen terminarPrestamo()
-    {
+
+    public DtoResumen terminarPrestamo() {
         DtoResumen dto = new DtoResumen();
-        if(verificarSaldo())
-        {
+        if (verificarSaldo()) {
             dto.setAgregar(true);
             dto.setDevuelta(calcularDevuelta());
             dto.setMensaje("Se realizo el prestamo");
-        }else
-        {
+        } else {
             dto.setAgregar(false);
             dto.setMensaje("No hay saldo suficiente");
         }
         return dto;
     }
-    private boolean verificarSaldo()
-    {
-        double saldo  = calcularSaldo();
+
+    private boolean verificarSaldo() {
+        double saldo = calcularSaldo();
         return saldo >= this.total;
     }
-    private double calcularDevuelta()
-    {
+
+    private double calcularDevuelta() {
         return calcularSaldo() - this.total;
     }
 }

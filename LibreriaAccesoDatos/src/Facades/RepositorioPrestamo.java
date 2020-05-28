@@ -274,7 +274,7 @@ public class RepositorioPrestamo implements IGestionPrestamo {
             if (denominaciion == Denominacion.MIL) {
                 pr.setInt(1, 1);
             }
-            if (denominaciion == Denominacion.QUIENTOS) {
+            else if (denominaciion == Denominacion.QUIENTOS) {
                 pr.setInt(1, 2);
             }
             pr.setInt(2, id);
